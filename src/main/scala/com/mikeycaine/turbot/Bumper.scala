@@ -52,15 +52,13 @@ import scala.scalajs.js
     println(s">> height is ${height}")
 
     try {
-      //val scene = new Scene()
-      //val camera = new PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 10000)
+
       val renderer = webGLRenderer(width, height)
       val scene = sceneWithLights()
       val camera = createCamera(width, height)
 
       doDrawing(renderer, scene, camera)
-      //println("Camera is " + pc)
-      //println("Renderer is "  + renderer)
+
     } catch {
       case ex: Throwable => println("Failed in componentDidMount() " + ex)
     }
