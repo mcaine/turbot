@@ -25,9 +25,7 @@ object ReactLogo extends js.Object
       header(className := "App-header")(
         h1(className := "App-title")("TURBOT")
       ),
-      p(className := "App-intro")(
-        "To get started, edit ", code("App.scala"), " and save to reload."
-      )
+      Bumper("BUMPA BOYZ")
     )
   }
 }
