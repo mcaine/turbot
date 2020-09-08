@@ -34,7 +34,7 @@ import scala.scalajs.js
   override def render(): ReactElement = {
     div(className := "Bumper")(
       p(className := "Bumper")(
-        "Bumpy Boyz more like ", props.name
+        "CHEKC IT OUT ", props.name
       ),
       div(id := elemId)
     )
@@ -75,21 +75,22 @@ import scala.scalajs.js
       println("Loaded that font oh yes.....")
 
     //val objects = randomCubes(1000)
-    val objects = randomText(font, "the light inside the body", 10)
+    val objects = spinText(font, "the light inside the body", 500)
 
     for (obj <- objects) {
       scene.add(obj)
     }
 
     var theta: Double = 0
-    var radius = 1000
+    var radius = 3000
 
     def render() = {
-      theta = theta + 0.02
+      theta = theta + 0.1
 
       camera.position.x = radius * Math.sin(Math.PI * theta / 180)
-      camera.position.y = radius * Math.sin(Math.PI * theta / 180)
+      camera.position.y = 0
       camera.position.z = radius * Math.cos(Math.PI * theta / 180)
+
       camera.lookAt(scene.position);
       camera.updateMatrixWorld();
       renderer.render(scene, camera)
@@ -108,7 +109,7 @@ import scala.scalajs.js
 
   def createCamera(width: Long, height: Long): PerspectiveCamera = {
     println("Creating a PerspectiveCamera")
-    val camera = new PerspectiveCamera(60, width / height, 0.1, 10000)
+    val camera = new PerspectiveCamera(90, width / height, 0.1, 10000)
     camera
   }
 
@@ -154,7 +155,7 @@ import scala.scalajs.js
 
   def randomMeshLambert() = {
     val meshLambertMaterialParameters = js.Dynamic.literal(
-      "color" -> (Math.random() * 0xffffff).toInt
+      "color" -> (Math.random() * 0x00ffff).toInt
     ).asInstanceOf[MeshLambertMaterialParameters]
 
     val material = new MeshLambertMaterial(meshLambertMaterialParameters)
@@ -167,10 +168,10 @@ import scala.scalajs.js
     val lightColour = new Color(0xaaffff)
 
     val lights =
-      for (i <- 1 to 10) yield {
+      for (i <- 1 to 20) yield {
         val light = new DirectionalLight()
         light.color = lightColour
-        light.position.set(50 * i, 50* i, 100 * i)
+        light.position.set(150 * i, 150* i, 200 * i)
         scene.add(light)
         light
       }
@@ -200,6 +201,39 @@ import scala.scalajs.js
       //      obj.rotation.x = Math.random() * 2 * Math.PI
       //      obj.rotation.y = Math.random() * 2 * Math.PI
       //      obj.rotation.z = Math.random() * 2 * Math.PI
+      //
+      //      obj.scale.x = Math.random() + 0.5
+      //      obj.scale.y = Math.random() + 0.5
+      //      obj.scale.z = Math.random() + 0.5
+
+      obj
+    }
+
+    objects
+  }
+
+  def spinText(font: Font, textStr: String, n: Integer) = {
+
+    val objects = for (i <- 1 to n) yield {
+      val material = randomMeshLambert()
+
+      val textGeometryParameters = js.Dynamic.literal(
+        "font" -> font,
+        "size" -> 300,
+        "height" -> 5
+      ).asInstanceOf[TextGeometryParameters]
+
+      //var textGeometry = new TextGeometry(textStr, textGeometryParameters)
+      var textGeometry = new TextBufferGeometry(textStr, textGeometryParameters)
+
+      val obj = new Mesh(textGeometry, material)
+      obj.position.x = 800 * Math.cos(Math.PI * i/18)
+      obj.position.y = 800 * Math.sin(Math.PI * i/18)
+      obj.position.z = 0
+
+      obj.rotation.x = 0
+      obj.rotation.y = Math.PI * i/18
+      obj.rotation.z = 0
       //
       //      obj.scale.x = Math.random() + 0.5
       //      obj.scale.y = Math.random() + 0.5
