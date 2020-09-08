@@ -72,11 +72,15 @@ import scala.scalajs.js
     new FontLoader().load("fonts/helvetiker_regular.typeface.json", (font: Font) => {
       println("Loaded that font oh yes.....")
 
-    //val objects = randomCubes(1000)
+    val cubes = randomCubes(100)
     val objects = spinText(font, "the light inside the body", 500)
 
     for (obj <- objects) {
       scene.add(obj)
+    }
+
+    for (cube <- cubes) {
+      scene.add(cube)
     }
 
     var theta: Double = 0
