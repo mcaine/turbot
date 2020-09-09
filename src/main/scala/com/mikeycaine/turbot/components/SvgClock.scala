@@ -3,8 +3,7 @@ package com.mikeycaine.turbot.components
 import slinky.core.Component
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
-import slinky.web.svg.{svg, height, width, className, g, id, key, transform, line, x, y, x1, x2, y1, y2, text, textAnchor, r, circle}
-import slinky.web.html.div
+import slinky.web.svg._
 
 @react class SvgClock extends Component {
 
@@ -46,17 +45,14 @@ import slinky.web.html.div
     def minuteTicks = for (i <- 1 to 60)
       yield line(key := String.valueOf(i), className := "minute-tick", x1 := 0, x2 := 0, y1 := 200, y2 := 190, transform := "rotate(" + 6 * i + ")")
 
-    div()(
-      svg(className := "svgClock", height := "500", width := "500")(
-        g(id := "clock-face", transform := "translate(250,250)")(
-          minuteTicks,
-          hourTicks,
-          hourLabels,
-          hands(hourAngle, minuteAngle),
-          centreOverlay
-        )
+    svg(className := "svgClock", height := "500", width := "500")(
+      g(id := "clock-face", transform := "translate(250,250)")(
+        minuteTicks,
+        hourTicks,
+        hourLabels,
+        hands(hourAngle, minuteAngle),
+        centreOverlay
       )
     )
   }
-
 }

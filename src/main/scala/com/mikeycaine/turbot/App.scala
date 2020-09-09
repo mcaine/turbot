@@ -28,6 +28,9 @@ object ReactLogo extends js.Object
         h1(className := "App-title")("TURBOT")
       ),
       SvgClock(18, 45, 0),
+      SvgClock(12, 0, 0),
+      SvgClock(4, 20, 0),
+      SvgClock(18, 45, 0),
       Kitchen("abc", "def"),
       Bumper("BUMPA BOYZ")
     )
