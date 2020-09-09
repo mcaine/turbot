@@ -70,10 +70,11 @@ svg{
     stroke-width:8;
 }
 
-.second-label{
+.second-label {
     font-size: 12px;
 }
 
-.hour-label{
-    font-size: 32px;
+.hour-label {
+    font-size: 40px;
+    color: darkgrey;
 }

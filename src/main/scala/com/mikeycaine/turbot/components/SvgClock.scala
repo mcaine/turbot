@@ -9,8 +9,8 @@ import slinky.web.html.div
 @react class SvgClock extends Component {
 
   val clockRadius: Int = 200
-  val hourLabelRadius: Int = clockRadius - 40
-  val hourLabelYOffset: Int = 12
+  val hourLabelRadius: Int = clockRadius - 45
+  val hourLabelYOffset: Int = 15
 
   case class State(hours: Int, minutes: Int, seconds: Int)
 

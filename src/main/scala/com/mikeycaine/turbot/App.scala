@@ -2,6 +2,7 @@ package com.mikeycaine.turbot
 
 import slinky.core._
 import slinky.core.annotations.react
+import slinky.core.facade.ReactElement
 import slinky.web.html._
 
 import scala.scalajs.js
@@ -23,12 +24,12 @@ object ReactLogo extends js.Object
 
   private val css = AppCSS
 
-  def render() = {
+  override def render(): ReactElement = {
     div(className := "App")(
       header(className := "App-header")(
         h1(className := "App-title")("TURBOT")
       ),
-      SvgClock(15, 13, 0),
+      SvgClock(18, 45, 0),
       Kitchen("abc", "def"),
       //Bumper("BUMPA BOYZ")
     )
