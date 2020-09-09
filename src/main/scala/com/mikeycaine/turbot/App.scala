@@ -28,7 +28,7 @@ object ReactLogo extends js.Object
       header(className := "App-header")(
         h1(className := "App-title")("TURBOT")
       ),
-      SvgClock(4, 47, 0),
+      SvgClock(15, 13, 0),
       Kitchen("abc", "def"),
       //Bumper("BUMPA BOYZ")
     )
