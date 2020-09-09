@@ -1,5 +1,6 @@
 package com.mikeycaine.turbot
 
+import com.mikeycaine.turbot.components.{Kitchen, SvgClock}
 import slinky.core._
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
@@ -7,9 +8,6 @@ import slinky.web.html._
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
-
-import com.mikeycaine.turbot.components.SvgClock
-import com.mikeycaine.turbot.components.Kitchen
 
 @JSImport("resources/App.css", JSImport.Default)
 @js.native
@@ -31,7 +29,7 @@ object ReactLogo extends js.Object
       ),
       SvgClock(18, 45, 0),
       Kitchen("abc", "def"),
-      //Bumper("BUMPA BOYZ")
+      Bumper("BUMPA BOYZ")
     )
   }
 }
