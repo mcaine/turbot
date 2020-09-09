@@ -61,12 +61,12 @@ svg{
     fill:#fff;
 }
 
-.second-tick{
+.minute-tick {
     stroke-width:3;
     fill:#000;
 }
 
-.hour-tick{
+.hour-tick {
     stroke-width:8;
 }
 

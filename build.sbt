@@ -7,15 +7,24 @@ name := "turbot"
 scalaVersion := "2.13.2"
 
 stFlavour := Flavour.Slinky
-stIgnore += "react"
+//stIgnore += "react"
 stIgnore += "react-dom"
 stIgnore += "react-proxy"
+//stIgnore += "leaflet"
+//stIgnore += "react-leaflet"
 
 npmDependencies in Compile += "react" -> "16.13.1"
+npmDependencies in Compile += "@types/react" -> "16.9.49"
+
+
 npmDependencies in Compile += "react-dom" -> "16.13.1"
 npmDependencies in Compile += "react-proxy" -> "1.1.8"
 
 npmDependencies in Compile += "three" -> "0.120.1"
+
+npmDependencies in Compile += "leaflet" -> "1.7.1"
+npmDependencies in Compile += "react-leaflet" -> "2.7.0"
+npmDependencies in Compile += "@types/react-leaflet" -> "2.5.2"
 
 npmDevDependencies in Compile += "file-loader" -> "6.0.0"
 npmDevDependencies in Compile += "style-loader" -> "1.2.1"

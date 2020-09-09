@@ -5,6 +5,7 @@ import slinky.core.Component
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
 import slinky.web.html.{className, div, id, p}
+
 import typings.std.global.document
 import typings.three.colorMod.Color
 import typings.three.directionalLightMod.DirectionalLight
@@ -75,7 +76,7 @@ import scala.scalajs.js
       println("Loaded that font oh yes.....")
 
     //val objects = randomCubes(1000)
-    val objects = randomText(font, "the light inside the body", 10)
+    val objects = randomText(font, "mikey", 10)
 
     for (obj <- objects) {
       scene.add(obj)
