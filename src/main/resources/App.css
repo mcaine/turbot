@@ -14,6 +14,16 @@
     color: darkred;
 }
 
+.leaflet-container {
+    height: 200px;
+    width: 200px;
+}
+
+.leaflet-pane {
+    height: 200px;
+    width: 200px;
+}
+
 .App-title {
     font-size: 2.5em;
 }
@@ -25,4 +35,46 @@
 @keyframes App-logo-spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+}
+
+svg{
+    stroke: #000;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+.second-hand{
+    stroke-width:3;
+}
+
+.minute-hand{
+    stroke-width:8;
+    stroke-linecap:round;
+}
+
+.hour-hand{
+    stroke-width:12;
+    stroke-linecap:round;
+}
+
+.hands-cover{
+    stroke-width:3;
+    fill:#fff;
+}
+
+.minute-tick {
+    stroke-width:3;
+    fill:#000;
+}
+
+.hour-tick {
+    stroke-width:8;
+}
+
+.second-label {
+    font-size: 12px;
+}
+
+.hour-label {
+    font-size: 40px;
+    color: darkgrey;
 }
