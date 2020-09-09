@@ -7,6 +7,9 @@ import slinky.web.html._
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
+import com.mikeycaine.turbot.components.SvgClock
+import com.mikeycaine.turbot.components.Kitchen
+
 @JSImport("resources/App.css", JSImport.Default)
 @js.native
 object AppCSS extends js.Object
@@ -25,7 +28,10 @@ object ReactLogo extends js.Object
       header(className := "App-header")(
         h1(className := "App-title")("TURBOT")
       ),
-      Bumper("BUMPA BOYZ")
+      SvgClock(9,45,0),
+      Kitchen("abc", "def"),
+      //Bumper("BUMPA BOYZ")
     )
   }
 }
+
