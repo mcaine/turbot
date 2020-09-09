@@ -36,7 +36,6 @@ import slinky.web.html.div
         circle(className := "hands-cover", x := 0, y := 0, r := 10)
       )
 
-
     def hands(hourAngle: Double, minuteAngle: Double) = g(id := "clock-hands")(
         line(className := "hour-hand", x1 := 0, y1 := 0, x2 := 0, y2 := -130, transform := "rotate(" + hourAngle + ")"),
         line(className := "minute-hand", x1 := 0, y1 := 0, x2 := 0, y2 := -200, transform := "rotate(" + minuteAngle + ")")
