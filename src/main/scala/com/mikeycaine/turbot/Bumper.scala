@@ -111,7 +111,7 @@ import scala.scalajs.js
 
   def createCamera(width: Long, height: Long): PerspectiveCamera = {
     println("Creating a PerspectiveCamera")
-    val camera = new PerspectiveCamera(90, width / height, 0.1, 10000)
+    val camera = new PerspectiveCamera(60, width / height, 0.1, 10000)
     camera
   }
 
