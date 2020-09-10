@@ -14,15 +14,7 @@
     color: darkred;
 }
 
-.leaflet-container {
-    height: 200px;
-    width: 200px;
-}
 
-.leaflet-pane {
-    height: 200px;
-    width: 200px;
-}
 
 .App-title {
     font-size: 2.5em;
@@ -77,4 +69,9 @@ svg{
 .hour-label {
     font-size: 40px;
     color: darkgrey;
+}
+
+.leaflet-container {
+    height: 800px;
+    width: 100%;
 }

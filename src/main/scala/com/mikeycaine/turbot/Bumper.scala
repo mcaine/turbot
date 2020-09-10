@@ -21,8 +21,9 @@ import typings.three.webGLRendererMod.{WebGLRenderer, WebGLRendererParameters}
 
 import scala.scalajs.js
 
+//noinspection SpellCheckingInspection
 @react class Bumper extends Component{
-  def elemId = {
+  def elemId: String = {
     "the" + "Bumper"
   }
 
@@ -30,12 +31,12 @@ import scala.scalajs.js
 
   case class State(count: Long)
 
-  override def initialState = State(31337L)
+  override def initialState: State = State(31337L)
 
   override def render(): ReactElement = {
     div(className := "Bumper")(
       p(className := "Bumper")(
-        "Bumpy Boyz more like ", props.name
+        "CHECK IT OUT ", props.name
       ),
       div(id := elemId)
     )
@@ -49,25 +50,23 @@ import scala.scalajs.js
     val width = document.getElementById(elemId).clientWidth
     val height = dom.window.innerHeight.toInt
 
-    println(s">> width is ${width}")
-    println(s">> height is ${height}")
+    println(s">> width is $width")
+    println(s">> height is $height")
 
     try {
-      //val scene = new Scene()
-      //val camera = new PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 10000)
+
       val renderer = webGLRenderer(width, height)
       val scene = sceneWithLights()
       val camera = createCamera(width, height)
 
       doDrawing(renderer, scene, camera)
-      //println("Camera is " + pc)
-      //println("Renderer is "  + renderer)
+
     } catch {
       case ex: Throwable => println("Failed in componentDidMount() " + ex)
     }
   }
 
-  def doDrawing(renderer: WebGLRenderer, scene: Scene, camera: PerspectiveCamera) = {
+  def doDrawing(renderer: WebGLRenderer, scene: Scene, camera: PerspectiveCamera): Unit = {
 
     println("in doDrawing()...")
 
@@ -75,24 +74,29 @@ import scala.scalajs.js
     new FontLoader().load("fonts/helvetiker_regular.typeface.json", (font: Font) => {
       println("Loaded that font oh yes.....")
 
-    //val objects = randomCubes(1000)
-    val objects = randomText(font, "mikey", 10)
+    val cubes = randomCubes(100)
+    val objects = spinText(font, "the light inside the body", 500)
 
     for (obj <- objects) {
       scene.add(obj)
     }
 
-    var theta: Double = 0
-    var radius = 1000
+    for (cube <- cubes) {
+      scene.add(cube)
+    }
 
-    def render() = {
-      theta = theta + 0.02
+    var theta: Double = 0
+    val radius = 3000
+
+    def render(): Unit = {
+      theta = theta + 0.1
 
       camera.position.x = radius * Math.sin(Math.PI * theta / 180)
-      camera.position.y = radius * Math.sin(Math.PI * theta / 180)
+      camera.position.y = 0
       camera.position.z = radius * Math.cos(Math.PI * theta / 180)
-      camera.lookAt(scene.position);
-      camera.updateMatrixWorld();
+
+      camera.lookAt(scene.position)
+      camera.updateMatrixWorld()
       renderer.render(scene, camera)
     }
 
@@ -113,23 +117,23 @@ import scala.scalajs.js
     camera
   }
 
-  def createAScene() = {
+  private def createAScene(): Scene = {
     println("Creating a Scene")
     val scene = new Scene()
     scene
   }
 
-  def webGLRenderer(innerWidth: Long, innerHeight: Long) = {
+  private def webGLRenderer(innerWidth: Long, innerHeight: Long) = {
     println("Creating a WebGLRenderer")
     val webGLRendererParameters = js.Dynamic.literal("antialias" -> true).asInstanceOf[WebGLRendererParameters]
     val renderer = new WebGLRenderer(webGLRendererParameters)
-    renderer.setSize(innerWidth, innerHeight);
+    renderer.setSize(innerWidth, innerHeight)
     document.getElementById(elemId).appendChild(renderer.domElement)
     renderer
   }
 
-  def randomCubes(n: Integer) = {
-    val geometry = new BoxGeometry(50.0, 50.0, 50.0, 10.0, 10.0, 10.0);
+  private def randomCubes(n: Integer) = {
+    val geometry = new BoxGeometry(50.0, 50.0, 50.0, 10.0, 10.0, 10.0)
 
     val cubes = for (i <- 1 to n) yield {
       val material = randomMeshLambert()
@@ -153,25 +157,25 @@ import scala.scalajs.js
     cubes
   }
 
-  def randomMeshLambert() = {
+  private def randomMeshLambert() = {
     val meshLambertMaterialParameters = js.Dynamic.literal(
-      "color" -> (Math.random() * 0xffffff).toInt
+      "color" -> (Math.random() * 0x00ffff).toInt
     ).asInstanceOf[MeshLambertMaterialParameters]
 
     val material = new MeshLambertMaterial(meshLambertMaterialParameters)
     material
   }
 
-  def sceneWithLights() = {
+  private def sceneWithLights() = {
     val scene = new Scene()
 
     val lightColour = new Color(0xaaffff)
 
     val lights =
-      for (i <- 1 to 10) yield {
+      for (i <- 1 to 20) yield {
         val light = new DirectionalLight()
         light.color = lightColour
-        light.position.set(50 * i, 50* i, 100 * i)
+        light.position.set(150 * i, 150* i, 200 * i)
         scene.add(light)
         light
       }
@@ -179,7 +183,7 @@ import scala.scalajs.js
     scene
   }
 
-  def randomText(font: Font, textStr: String, n: Integer) = {
+  private def randomText(font: Font, textStr: String, n: Integer) = {
 
     val objects = for (i <- 1 to n) yield {
       val material = randomMeshLambert()
@@ -191,7 +195,7 @@ import scala.scalajs.js
       ).asInstanceOf[TextGeometryParameters]
 
       //var textGeometry = new TextGeometry(textStr, textGeometryParameters)
-      var textGeometry = new TextBufferGeometry(textStr, textGeometryParameters)
+      val textGeometry = new TextBufferGeometry(textStr, textGeometryParameters)
 
       val obj = new Mesh(textGeometry, material)
       obj.position.x = Math.random() * 800 - 400
@@ -201,6 +205,39 @@ import scala.scalajs.js
       //      obj.rotation.x = Math.random() * 2 * Math.PI
       //      obj.rotation.y = Math.random() * 2 * Math.PI
       //      obj.rotation.z = Math.random() * 2 * Math.PI
+      //
+      //      obj.scale.x = Math.random() + 0.5
+      //      obj.scale.y = Math.random() + 0.5
+      //      obj.scale.z = Math.random() + 0.5
+
+      obj
+    }
+
+    objects
+  }
+
+  private def spinText(font: Font, textStr: String, n: Integer) = {
+
+    val objects = for (i <- 1 to n) yield {
+      val material = randomMeshLambert()
+
+      val textGeometryParameters = js.Dynamic.literal(
+        "font" -> font,
+        "size" -> 300,
+        "height" -> 5
+      ).asInstanceOf[TextGeometryParameters]
+
+      //var textGeometry = new TextGeometry(textStr, textGeometryParameters)
+      val textGeometry = new TextBufferGeometry(textStr, textGeometryParameters)
+
+      val obj = new Mesh(textGeometry, material)
+      obj.position.x = 800 * Math.cos(Math.PI * i/18)
+      obj.position.y = 800 * Math.sin(Math.PI * i/18)
+      obj.position.z = 0
+
+      obj.rotation.x = 0
+      obj.rotation.y = Math.PI * i/18
+      obj.rotation.z = 0
       //
       //      obj.scale.x = Math.random() + 0.5
       //      obj.scale.y = Math.random() + 0.5

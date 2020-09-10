@@ -1,8 +1,8 @@
 package com.mikeycaine
 
+import com.mikeycaine.turbot.App
 import slinky.web.ReactDOM
 import org.scalajs.dom.document
-
 import org.scalatest.FunSuite
 
 class AppTest extends FunSuite {
