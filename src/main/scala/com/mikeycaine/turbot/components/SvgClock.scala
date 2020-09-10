@@ -11,17 +11,22 @@ import slinky.web.svg._
   val hourLabelRadius: Int = clockRadius - 45
   val hourLabelYOffset: Int = 15
 
-  case class State(hours: Int, minutes: Int, seconds: Int)
+  case class State(hours: Int, minutes: Int, seconds: Int, showSeconds: Boolean)
 
-  case class Props(hours: Int, minutes: Int, seconds: Int)
+  case class Props(hours: Int, minutes: Int, seconds: Int, showSeconds: Boolean)
 
-  override def initialState: State = State(props.hours, props.minutes, props.seconds)
+  override def initialState: State = {
+    println("initialising clock state")
+    println(s"h=${props.hours}, m=${props.minutes}, s=${props.seconds} showSeconds: ${props.showSeconds}")
+    State(props.hours, props.minutes, props.seconds, props.showSeconds)
+  }
 
   override def render(): ReactElement = {
 
     val secs: Double = 3600.0 * (this.state.hours % 12) + 60.0 * this.state.minutes + this.state.seconds
     val hourAngle: Double = 360.0 * secs / (3600 * 12)
     val minuteAngle: Double = 360.0 * (secs % 3600) / 3600
+    val secondAngle: Double = 360.0 * (secs % 60) / 60
 
     def hourLabels = for (i <- 1 to 12)
       yield {
@@ -36,7 +41,8 @@ import slinky.web.svg._
 
     def hands(hourAngle: Double, minuteAngle: Double) = g(id := "clock-hands")(
       line(className := "hour-hand", x1 := 0, y1 := 0, x2 := 0, y2 := -130, transform := "rotate(" + hourAngle + ")"),
-      line(className := "minute-hand", x1 := 0, y1 := 0, x2 := 0, y2 := -200, transform := "rotate(" + minuteAngle + ")")
+      line(className := "minute-hand", x1 := 0, y1 := 0, x2 := 0, y2 := -200, transform := "rotate(" + minuteAngle + ")"),
+      line(className := "second-hand", x1 := 0, y1 := 0, x2 := 0, y2 := -200, transform := "rotate(" + secondAngle + ")", visibility := (if (this.state.showSeconds) "visible" else "hidden"))
     )
 
     def hourTicks = for (i <- 1 to 12)

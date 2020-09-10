@@ -1,6 +1,8 @@
 package com.mikeycaine.turbot
 
-import com.mikeycaine.turbot.components.{Kitchen, SvgClock}
+// import com.mikeycaine.turbot.components.{TodoApp, SvgClock, Kitchen}
+
+import com.mikeycaine.turbot.components.TodoApp
 import slinky.core._
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
@@ -22,17 +24,24 @@ object ReactLogo extends js.Object
 
   private val css = AppCSS
 
+  //noinspection SpellCheckingInspection
   override def render(): ReactElement = {
+    //noinspection SpellCheckingInspection
     div(className := "App")(
       header(className := "App-header")(
         h1(className := "App-title")("TURBOT")
       ),
-      SvgClock(18, 45, 0),
-      SvgClock(12, 0, 0),
-      SvgClock(4, 20, 0),
-      SvgClock(18, 45, 0),
-      Kitchen("abc", "def"),
-      Bumper("BUMPA BOYZ")
+      TodoApp(),
+//      SvgClock(10, 15, 0, true),
+//      SvgClock(12, 0, 35, false),
+//      SvgClock(4, 20, 60, false),
+//      SvgClock(18, 45, 17, true),
+//      SvgClock(23, 25, 11, true),
+//      SvgClock(4, 53, 480, true),
+//      SvgClock(4, 53, -480, true),
+//      SvgClock(3, 30, 30, true),
+//      Kitchen("abc", "def"),
+//      Bumper("BUMPA BOYZ")
     )
   }
 }
