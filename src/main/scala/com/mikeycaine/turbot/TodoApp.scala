@@ -1,12 +1,15 @@
-package com.mikeycaine.turbot.components
+package com.mikeycaine.turbot
 
-import slinky.core.{Component, StatelessComponent, SyntheticEvent}
-import slinky.core.annotations.react
-import slinky.web.html.{button, div, form, h3, input, key, li, onChange, onSubmit, ul, value}
-import org.scalajs.dom.raw.Event
 import org.scalajs.dom.html
+import org.scalajs.dom.raw.Event
+import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
-import typings.std.global.^.Date
+import slinky.core.{Component, StatelessComponent, SyntheticEvent}
+import slinky.web.html._
+
+import java.time.Instant
+import scala.scalajs.js.Date
+
 
 case class TodoItem(text: String, id: Long)
 

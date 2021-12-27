@@ -5,7 +5,6 @@ import slinky.core.Component
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
 import slinky.web.html.{className, div, id, p}
-
 import typings.std.global.document
 import typings.three.colorMod.Color
 import typings.three.directionalLightMod.DirectionalLight
@@ -14,8 +13,8 @@ import typings.three.fontMod.Font
 import typings.three.geometriesMod.BoxGeometry
 import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
 import typings.three.meshMod.Mesh
-import typings.three.perspectiveCameraMod.PerspectiveCamera
 import typings.three.sceneMod.Scene
+import typings.three.perspectiveCameraMod.PerspectiveCamera
 import typings.three.textGeometryMod.{TextBufferGeometry, TextGeometryParameters}
 import typings.three.webGLRendererMod.{WebGLRenderer, WebGLRendererParameters}
 
@@ -55,8 +54,9 @@ import scala.scalajs.js
 
     try {
 
-      val renderer = webGLRenderer(width, height)
+      val renderer: WebGLRenderer = webGLRenderer(width, height)
       val scene = sceneWithLights()
+      //val scene = createAScene()
       val camera = createCamera(width, height)
 
       doDrawing(renderer, scene, camera)
@@ -125,7 +125,8 @@ import scala.scalajs.js
 
   private def webGLRenderer(innerWidth: Long, innerHeight: Long) = {
     println("Creating a WebGLRenderer")
-    val webGLRendererParameters = js.Dynamic.literal("antialias" -> true).asInstanceOf[WebGLRendererParameters]
+    //val webGLRendererParameters = js.Dynamic.literal("antialias" -> true).asInstanceOf[WebGLRendererParameters]
+    val webGLRendererParameters = WebGLRendererParameters()
     val renderer = new WebGLRenderer(webGLRendererParameters)
     renderer.setSize(innerWidth, innerHeight)
     document.getElementById(elemId).appendChild(renderer.domElement)
@@ -172,7 +173,7 @@ import scala.scalajs.js
     val lightColour = new Color(0xaaffff)
 
     val lights =
-      for (i <- 1 to 20) yield {
+      for (i <- 1 to 2) yield {
         val light = new DirectionalLight()
         light.color = lightColour
         light.position.set(150 * i, 150* i, 200 * i)
