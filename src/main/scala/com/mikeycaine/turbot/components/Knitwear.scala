@@ -26,7 +26,6 @@ case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
   )
 
   val materials = colours map (col => {
-    //val params = js.Dynamic.literal("color" -> col).asInstanceOf[MeshLambertMaterialParameters]
     val meshLambertMaterialParameters = MeshLambertMaterialParameters()
     meshLambertMaterialParameters.color = col
     new MeshLambertMaterial(meshLambertMaterialParameters)
