@@ -63,14 +63,19 @@ case class CubesAndStuff(renderer: WebGLRenderer, scene: Scene, camera: Camera) 
     val objects = for (i <- 1 to n) yield {
       val material = randomMeshLambert()
 
-      val textGeometryParameters = js.Dynamic.literal(
-        "font" -> font,
-        "size" -> fontSize,
-        "height" -> 200
-      ).asInstanceOf[TextGeometryParameters]
+//      val textGeometryParameters = js.Dynamic.literal(
+//        "font" -> font,
+//        "size" -> fontSize,
+//        "height" -> 200
+//      ).asInstanceOf[TextGeometryParameters]
+
+      val textGeomParams = TextGeometryParameters(font)
+      textGeomParams.size = fontSize
+      textGeomParams.height = 200
+
 
       //var textGeometry = new TextGeometry(textStr, textGeometryParameters)
-      val textGeometry = new TextBufferGeometry(textStr, textGeometryParameters)
+      val textGeometry = new TextBufferGeometry(textStr, textGeomParams)
 
       val obj = new Mesh(textGeometry, material)
       //obj.position.x = 800 * Math.cos(Math.PI * i/18)

@@ -49,11 +49,12 @@ class TestScene extends Component {
 
     try {
       val renderer: WebGLRenderer = webGLRenderer(width, height)
-      val scene = sceneWithLights()
+      val scene = SceneWithLights.sceneWithLights()
       val camera = DefaultCamera.createCamera(width, height)
 
-      val cubesAndStuff = CubesAndStuff(renderer, scene, camera)
-      cubesAndStuff.doDrawing()
+//      val cubesAndStuff = CubesAndStuff(renderer, scene, camera)
+      //CubesAndStuff(renderer, scene, camera).doDrawing()
+      Knitwear(renderer, scene, camera).doDrawing()
     } catch {
       case ex: Throwable => println("Failed in componentDidMount() " + ex)
     }
@@ -68,22 +69,22 @@ class TestScene extends Component {
     renderer
   }
 
-  def sceneWithLights() = {
-    val scene = new Scene()
-
-    val lightColour = new Color(0xaaffff)
-
-    val lights =
-      for (i <- 1 to 2) yield {
-        val light = new DirectionalLight()
-        light.color = lightColour
-        light.position.set(150 * i, 150* i, 200 * i)
-        scene.add(light)
-        light
-      }
-
-    scene
-  }
+//  def sceneWithLights() = {
+//    val scene = new Scene()
+//
+//    val lightColour = new Color(0xaaffff)
+//
+//    val lights =
+//      for (i <- 1 to 2) yield {
+//        val light = new DirectionalLight()
+//        light.color = lightColour
+//        light.position.set(150 * i, 150* i, 200 * i)
+//        scene.add(light)
+//        light
+//      }
+//
+//    scene
+//  }
 
 //  def createCamera(width: Long, height: Long): PerspectiveCamera =
 //    new PerspectiveCamera(60, width / height, 0.1, 10000)

@@ -40,7 +40,7 @@ object ReactLogo extends js.Object
       //SvgClock(4, 53, -480, true),
       //SvgClock(3, 30, 30, true),
       //Kitchen("abc", "def"),
-      TestScene("awesome", "6")
+      TestScene("awesome", "7")
     )
   }
 }
