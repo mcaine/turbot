@@ -4,31 +4,16 @@ import org.scalajs.dom
 import slinky.core.Component
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
-import slinky.web.html.{className, div, id, p}
+import slinky.web.html.{className, div, id}
 import typings.std.global.document
-import typings.three.colorMod.Color
-import typings.three.directionalLightMod.DirectionalLight
-import typings.three.fontLoaderMod.FontLoader
-import typings.three.fontMod.Font
-import typings.three.geometriesMod.BoxGeometry
-import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
-import typings.three.meshMod.Mesh
-import typings.three.perspectiveCameraMod.PerspectiveCamera
-import typings.three.sceneMod.Scene
-import typings.three.textGeometryMod.{TextBufferGeometry, TextGeometryParameters}
 import typings.three.webGLRendererMod.{WebGLRenderer, WebGLRendererParameters}
-
-import scala.scalajs.js
 
 @react
 class TestScene extends Component {
   case class Props(elemId: String, name: String)
   case class State(count: Long)
-  //override type Snapshot = this.type
 
   override def initialState: State = State(31337L)
-
-
 
   override def render(): ReactElement = {
     div(className := "test_scene")(
