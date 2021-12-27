@@ -1,8 +1,7 @@
 package com.mikeycaine.turbot
 
-// import com.mikeycaine.turbot.components.{TodoApp, SvgClock, Kitchen}
+import com.mikeycaine.turbot.components.TestScene
 
-//import com.mikeycaine.turbot.Bumper
 import slinky.core._
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
@@ -28,9 +27,9 @@ object ReactLogo extends js.Object
   override def render(): ReactElement = {
     //noinspection SpellCheckingInspection
     div(className := "App")(
-      header(className := "App-header")(
-        h1(className := "App-title")("TURBOT")
-      ),
+//      header(className := "App-header")(
+//        h1(className := "App-title")("TURBOT")
+//      ),
       //TodoApp(),
       //SvgClock(10, 15, 0, true),
       //SvgClock(12, 0, 35, false),
@@ -41,7 +40,7 @@ object ReactLogo extends js.Object
       //SvgClock(4, 53, -480, true),
       //SvgClock(3, 30, 30, true),
       //Kitchen("abc", "def"),
-      Bumper("This is a title")
+      TestScene("awesome", "3")
     )
   }
 }
