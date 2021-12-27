@@ -48,45 +48,45 @@ case class Pattern(rows: String*) {
 }
 
 object Pattern {
-  def main(args: Array[String]): Unit = {
-
-    //val pattern = new Pattern()
-
-    val pattern1 = Pattern(
-      "*****^*****",
-      "****---****",
-      "**<----->**",
-      "****---****",
-      "*****V*****"
-    )
-
-    val pattern2 = Pattern(
-      "***********",
-      "***********",
-      "***********",
-      "***********",
-      "***********"
-    )
-
-    val pattern3 = pattern1 nextTo pattern2
-    val pattern4 = pattern2 nextTo pattern1
-    //pattern3.printPattern(1, 1)
-
-    val pattern5 = pattern3 above pattern4
-    pattern5.printPattern(2, 2)
-
-    val pattern6 = pattern4 above pattern3
-
-    val pattern7 = pattern5 nextTo pattern6
-
-    val pattern8 = pattern2 nextTo pattern2
-    val pattern9 = pattern8 nextTo pattern8
-
-    val pattern10 = pattern9 above pattern7
-
-    //pattern7.printPattern(1, 1)
-
-
-  }
+//  def main(args: Array[String]): Unit = {
+//
+//    //val pattern = new Pattern()
+//
+//    val pattern1 = Pattern(
+//      "*****^*****",
+//      "****---****",
+//      "**<----->**",
+//      "****---****",
+//      "*****V*****"
+//    )
+//
+//    val pattern2 = Pattern(
+//      "***********",
+//      "***********",
+//      "***********",
+//      "***********",
+//      "***********"
+//    )
+//
+//    val pattern3 = pattern1 nextTo pattern2
+//    val pattern4 = pattern2 nextTo pattern1
+//    //pattern3.printPattern(1, 1)
+//
+//    val pattern5 = pattern3 above pattern4
+//    pattern5.printPattern(2, 2)
+//
+//    val pattern6 = pattern4 above pattern3
+//
+//    val pattern7 = pattern5 nextTo pattern6
+//
+//    val pattern8 = pattern2 nextTo pattern2
+//    val pattern9 = pattern8 nextTo pattern8
+//
+//    val pattern10 = pattern9 above pattern7
+//
+//    //pattern7.printPattern(1, 1)
+//
+//
+//  }
 }
 

@@ -32,9 +32,9 @@ class TestScene extends Component {
 
   override def render(): ReactElement = {
     div(className := "test_scene")(
-      p(className := "test_scene")(
-        "Test Scene: " + props.name
-      ),
+//      p(className := "test_scene")(
+//        "Test Scene: " + props.name
+//      ),
       div(id := props.elemId)
     )
   }
@@ -52,7 +52,6 @@ class TestScene extends Component {
       val scene = SceneWithLights.sceneWithLights()
       val camera = DefaultCamera.createCamera(width, height)
 
-//      val cubesAndStuff = CubesAndStuff(renderer, scene, camera)
       //CubesAndStuff(renderer, scene, camera).doDrawing()
       Knitwear(renderer, scene, camera).doDrawing()
     } catch {
@@ -68,25 +67,4 @@ class TestScene extends Component {
     document.getElementById(props.elemId).appendChild(renderer.domElement)
     renderer
   }
-
-//  def sceneWithLights() = {
-//    val scene = new Scene()
-//
-//    val lightColour = new Color(0xaaffff)
-//
-//    val lights =
-//      for (i <- 1 to 2) yield {
-//        val light = new DirectionalLight()
-//        light.color = lightColour
-//        light.position.set(150 * i, 150* i, 200 * i)
-//        scene.add(light)
-//        light
-//      }
-//
-//    scene
-//  }
-
-//  def createCamera(width: Long, height: Long): PerspectiveCamera =
-//    new PerspectiveCamera(60, width / height, 0.1, 10000)
-
 }
