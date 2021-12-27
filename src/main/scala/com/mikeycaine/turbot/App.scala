@@ -32,16 +32,16 @@ object ReactLogo extends js.Object
         h1(className := "App-title")("TURBOT")
       ),
       //TodoApp(),
-      SvgClock(10, 15, 0, true),
-      SvgClock(12, 0, 35, false),
-      SvgClock(4, 20, 60, false),
-      SvgClock(18, 45, 17, true),
-      SvgClock(23, 25, 11, true),
-      SvgClock(4, 53, 480, true),
-      SvgClock(4, 53, -480, true),
-      SvgClock(3, 30, 30, true),
-      Kitchen("abc", "def"),
-      //Bumper("BUMPA BOYZ")
+      //SvgClock(10, 15, 0, true),
+      //SvgClock(12, 0, 35, false),
+      //SvgClock(4, 20, 60, false),
+      //SvgClock(18, 45, 17, true),
+      //SvgClock(23, 25, 11, true),
+      //SvgClock(4, 53, 480, true),
+      //SvgClock(4, 53, -480, true),
+      //SvgClock(3, 30, 30, true),
+      //Kitchen("abc", "def"),
+      Bumper("This is a title")
     )
   }
 }

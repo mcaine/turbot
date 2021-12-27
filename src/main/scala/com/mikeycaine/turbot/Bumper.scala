@@ -33,18 +33,16 @@ import scala.scalajs.js
   override def initialState: State = State(31337L)
 
   override def render(): ReactElement = {
-    div(className := "Bumper")(
-      p(className := "Bumper")(
-        "CHECK IT OUT ", props.name
-      ),
+//    div(className := "Bumper")(
+//      p(className := "Bumper")(
+//        "CHECK IT OUT ", props.name
+//      ),
       div(id := elemId)
-    )
+//    )
   }
 
   override def componentDidMount(): Unit = {
-    println("Widget componentDidMount()")
-
-    //val window = dom.window
+    //println("Widget componentDidMount()")
 
     val width = document.getElementById(elemId).clientWidth
     val height = dom.window.innerHeight.toInt
@@ -53,42 +51,41 @@ import scala.scalajs.js
     println(s">> height is $height")
 
     try {
-
       val renderer: WebGLRenderer = webGLRenderer(width, height)
       val scene = sceneWithLights()
-      //val scene = createAScene()
       val camera = createCamera(width, height)
 
       doDrawing(renderer, scene, camera)
-
     } catch {
       case ex: Throwable => println("Failed in componentDidMount() " + ex)
     }
   }
 
-  def doDrawing(renderer: WebGLRenderer, scene: Scene, camera: PerspectiveCamera): Unit = {
-
-    println("in doDrawing()...")
-
-    //new FontLoader().load("fonts/Pacifico_Regular.json", (font: Font) => {
-    new FontLoader().load("fonts/helvetiker_regular.typeface.json", (font: Font) => {
-      println("Loaded that font oh yes.....")
-
-    val cubes = randomCubes(100)
-    val objects = spinText(font, "the light inside the body", 500)
-
-    for (obj <- objects) {
-      scene.add(obj)
-    }
-
-    for (cube <- cubes) {
+  def addRandomCubesToScene(scene: Scene) =
+    for (cube <- randomCubes(100)) {
       scene.add(cube)
     }
 
-    var theta: Double = 0
-    val radius = 3000
+  def addItemsToScene(items: Seq[Mesh[TextBufferGeometry, MeshLambertMaterial]], scene: Scene) =
+    for(item <- items) {
+      scene.add(item)
+    }
 
-    def render(): Unit = {
+  def addLightInsideTheBody(scene: Scene, font: Font) =
+    addItemsToScene(spinText(font, "the light inside the body", 10), scene)
+
+
+  def doDrawing(renderer: WebGLRenderer, scene: Scene, camera: PerspectiveCamera): Unit = {
+
+    new FontLoader().load("fonts/helvetiker_regular.typeface.json", (font: Font) => {
+
+      addRandomCubesToScene(scene)
+      addLightInsideTheBody(scene, font)
+
+      var theta: Double = 0
+      val radius = 3000
+
+      def render(): Unit = {
       theta = theta + 0.1
 
       camera.position.x = radius * Math.sin(Math.PI * theta / 180)
@@ -140,9 +137,12 @@ import scala.scalajs.js
       val material = randomMeshLambert()
       val obj = new Mesh(geometry, material)
 
-      obj.position.x = Math.random() * 1800 - 400
-      obj.position.y = Math.random() * 1800 - 400
-      obj.position.z = Math.random() * 1800 - 400
+      val theta: Double = i.toDouble / n * 2 * Math.PI
+      val theta2: Double = 5 * 2 * Math.PI * i.toDouble / n
+
+      obj.position.x = Math.sin(theta) * 1000 - 400
+      obj.position.y = Math.cos(theta) * 1000 - 400
+      obj.position.z = Math.sin(theta2) * 1000 - 400
 
       //      obj.rotation.x = Math.random() * 2 * Math.PI
       //      obj.rotation.y = Math.random() * 2 * Math.PI
@@ -217,7 +217,7 @@ import scala.scalajs.js
     objects
   }
 
-  private def spinText(font: Font, textStr: String, n: Integer) = {
+  private def spinText(font: Font, textStr: String, n: Integer): Seq[Mesh[TextBufferGeometry, MeshLambertMaterial]] = {
 
     val objects = for (i <- 1 to n) yield {
       val material = randomMeshLambert()
