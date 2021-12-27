@@ -26,8 +26,8 @@ class TestScene extends Component {
 
   override def componentDidMount(): Unit = {
 
-    val width = document.getElementById(props.elemId).clientWidth
-    val height = dom.window.innerHeight.toInt
+    val width = document.getElementById(props.elemId).clientWidth - 5
+    val height = dom.window.innerHeight.toInt - 5
 
     println(s">> width is $width")
     println(s">> height is $height")

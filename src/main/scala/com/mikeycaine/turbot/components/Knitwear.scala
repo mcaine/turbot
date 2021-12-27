@@ -32,7 +32,7 @@ case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
     new MeshLambertMaterial(meshLambertMaterialParameters)
   })
 
-  var theta = 0.0
+  var theta = -90.0
   //val radius = 4000.0
 
   val pattern1 = Pattern(
@@ -74,7 +74,7 @@ case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
         val material = meshLambert(pattern.charAt(x, y).toString)
         val obj = new Mesh(geometry, material)
 
-        obj.position.x = -7000 + 50 * x
+        obj.position.x = -10000 + 50 * x
         obj.position.y = -7000 + 50 * y
         obj.position.z = 0
 
@@ -122,7 +122,7 @@ case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
   }
 
   def moveCamera(): Unit = {
-    theta = theta + 0.1
+    theta = theta + 0.5
 
     val radius = 3000
 
