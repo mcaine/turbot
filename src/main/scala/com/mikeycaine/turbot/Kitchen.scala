@@ -1,13 +1,10 @@
-package com.mikeycaine.turbot.components
+package com.mikeycaine.turbot
 
 import slinky.core.Component
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
-import typings.leaflet.mod.{LatLngBoundsExpression, LatLngExpression}
+import slinky.web.html.div
 // import typings.reactLeaflet.components.{TileLayer, Map => LeafMap, Marker, Popup}
-import typings.reactLeaflet.components.{TileLayer, Map => LeafMap}
-import typings.reactLeaflet.mod.{MapProps, TileLayerProps}
-
 import scala.scalajs.js.Array
 
 
@@ -28,16 +25,16 @@ import scala.scalajs.js.Array
 
   override def initialState = State(747L, 51.505, -0.09, 15)
 
-  override def render(): ReactElement = {
+  override def render: ReactElement = div()
 
     //val tlp = TileLayerProps("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png")
-    val tlp = TileLayerProps("http://{s}.tile.osm.org/{z}/{x}/{y}.png")
-
-    val latLng: LatLngExpression = Array(49.505, -2.09).asInstanceOf[LatLngExpression]
-    val latLng2: LatLngExpression = Array(53.505, 2.09).asInstanceOf[LatLngExpression]
-    val center: LatLngExpression =  Array(51.48, -0.025).asInstanceOf[LatLngExpression]
-
-    val bounds = Array(latLng, latLng2).asInstanceOf[LatLngBoundsExpression]
+//    val tlp = TileLayerProps("http://{s}.tile.osm.org/{z}/{x}/{y}.png")
+//
+//    val latLng: LatLngExpression = Array(49.505, -2.09).asInstanceOf[LatLngExpression]
+//    val latLng2: LatLngExpression = Array(53.505, 2.09).asInstanceOf[LatLngExpression]
+//    val center: LatLngExpression =  Array(51.48, -0.025).asInstanceOf[LatLngExpression]
+//
+//    val bounds = Array(latLng, latLng2).asInstanceOf[LatLngBoundsExpression]
 
 
     //val pt1 = LatLng(49.505, -2.09)
@@ -55,7 +52,7 @@ import scala.scalajs.js.Array
 
     //val mapProps = MapProps().setBounds(bounds3).setId("mapHolder").setClassName("mapHolder")
     //val mapProps = MapProps().setClassName("mapHolder").setId("mapHolder").setBounds(bounds).setZoom(13).setCenter(center)
-    val mapProps = MapProps().setCenter(center).setZoom(this.state.zoom)
+    //val mapProps = MapProps().setCenter(center).setZoom(this.state.zoom)
 
     //val position = js.Tuple2(this.state.lat, this.state.lng)
     //val latlng = LatLngLiteral(this.state.lat, this.state.lng)
@@ -66,10 +63,11 @@ import scala.scalajs.js.Array
 
 
 
-      LeafMap(mapProps) (
-        TileLayer(tlp)
-    )
-  }
+//      LeafMap(mapProps) (
+//        TileLayer(tlp)
+//    )
+//    div()
+//  }
 
 }
 

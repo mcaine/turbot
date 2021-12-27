@@ -1,4 +1,4 @@
-package com.mikeycaine.turbot.components
+package com.mikeycaine.turbot
 
 import slinky.core.Component
 import slinky.core.annotations.react

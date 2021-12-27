@@ -5,7 +5,6 @@ import slinky.core.Component
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
 import slinky.web.html.{className, div, id, p}
-
 import typings.std.global.document
 import typings.three.colorMod.Color
 import typings.three.directionalLightMod.DirectionalLight
@@ -14,8 +13,8 @@ import typings.three.fontMod.Font
 import typings.three.geometriesMod.BoxGeometry
 import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
 import typings.three.meshMod.Mesh
-import typings.three.perspectiveCameraMod.PerspectiveCamera
 import typings.three.sceneMod.Scene
+import typings.three.perspectiveCameraMod.PerspectiveCamera
 import typings.three.textGeometryMod.{TextBufferGeometry, TextGeometryParameters}
 import typings.three.webGLRendererMod.{WebGLRenderer, WebGLRendererParameters}
 
@@ -34,18 +33,16 @@ import scala.scalajs.js
   override def initialState: State = State(31337L)
 
   override def render(): ReactElement = {
-    div(className := "Bumper")(
-      p(className := "Bumper")(
-        "CHECK IT OUT ", props.name
-      ),
+//    div(className := "Bumper")(
+//      p(className := "Bumper")(
+//        "CHECK IT OUT ", props.name
+//      ),
       div(id := elemId)
-    )
+//    )
   }
 
   override def componentDidMount(): Unit = {
-    println("Widget componentDidMount()")
-
-    //val window = dom.window
+    //println("Widget componentDidMount()")
 
     val width = document.getElementById(elemId).clientWidth
     val height = dom.window.innerHeight.toInt
@@ -54,39 +51,40 @@ import scala.scalajs.js
     println(s">> height is $height")
 
     try {
-
-      val renderer = webGLRenderer(width, height)
+      val renderer: WebGLRenderer = webGLRenderer(width, height)
       val scene = sceneWithLights()
       val camera = createCamera(width, height)
 
       doDrawing(renderer, scene, camera)
-
     } catch {
       case ex: Throwable => println("Failed in componentDidMount() " + ex)
     }
   }
 
-  def doDrawing(renderer: WebGLRenderer, scene: Scene, camera: PerspectiveCamera): Unit = {
-
-    println("in doDrawing()...")
-
-    //new FontLoader().load("fonts/Pacifico_Regular.json", (font: Font) => {
-    new FontLoader().load("fonts/helvetiker_regular.typeface.json", (font: Font) => {
-      println("Loaded that font oh yes.....")
-
-    val cubes = randomCubes(100)
-    val objects = spinText(font, "the light inside the body", 500)
-
-    for (obj <- objects) {
-      scene.add(obj)
-    }
-
-    for (cube <- cubes) {
+  def addRandomCubesToScene(scene: Scene) =
+    for (cube <- randomCubes(100)) {
       scene.add(cube)
     }
 
-    var theta: Double = 0
-    val radius = 3000
+  def addItemsToScene(items: Seq[Mesh[TextBufferGeometry, MeshLambertMaterial]], scene: Scene) =
+    for(item <- items) {
+      scene.add(item)
+    }
+
+  def addLightInsideTheBody(scene: Scene, font: Font) =
+    addItemsToScene(spinText(font, "HELLO", 10), scene)
+
+
+  def doDrawing(renderer: WebGLRenderer, scene: Scene, camera: PerspectiveCamera): Unit = {
+
+    addRandomCubesToScene(scene)
+
+    new FontLoader().load("fonts/helvetiker_regular.typeface.json", (font: Font) => {
+      addLightInsideTheBody(scene, font)
+    })
+
+    var theta = 0.0
+    val radius = 5000.0
 
     def render(): Unit = {
       theta = theta + 0.1
@@ -100,15 +98,13 @@ import scala.scalajs.js
       renderer.render(scene, camera)
     }
 
-    def animate(p: Double): Unit = {
-      println("animation frame")
+    def animate(dummy: Double): Unit = {
+      //println("animation frame")
       dom.window.requestAnimationFrame(animate)
       render()
     }
 
     animate(0)
-
-    })
   }
 
   def createCamera(width: Long, height: Long): PerspectiveCamera = {
@@ -125,7 +121,8 @@ import scala.scalajs.js
 
   private def webGLRenderer(innerWidth: Long, innerHeight: Long) = {
     println("Creating a WebGLRenderer")
-    val webGLRendererParameters = js.Dynamic.literal("antialias" -> true).asInstanceOf[WebGLRendererParameters]
+    //val webGLRendererParameters = js.Dynamic.literal("antialias" -> true).asInstanceOf[WebGLRendererParameters]
+    val webGLRendererParameters = WebGLRendererParameters()
     val renderer = new WebGLRenderer(webGLRendererParameters)
     renderer.setSize(innerWidth, innerHeight)
     document.getElementById(elemId).appendChild(renderer.domElement)
@@ -133,19 +130,18 @@ import scala.scalajs.js
   }
 
   private def randomCubes(n: Integer) = {
-    val geometry = new BoxGeometry(50.0, 50.0, 50.0, 10.0, 10.0, 10.0)
+    val geometry = new BoxGeometry(200.0, 50.0, 50.0, 10.0, 10.0, 10.0)
 
     val cubes = for (i <- 1 to n) yield {
       val material = randomMeshLambert()
       val obj = new Mesh(geometry, material)
 
-      obj.position.x = Math.random() * 1800 - 400
-      obj.position.y = Math.random() * 1800 - 400
-      obj.position.z = Math.random() * 1800 - 400
+      val theta: Double = i.toDouble / n * 2 * Math.PI
+      val theta2: Double = 5 * 2 * Math.PI * i.toDouble / n
 
-      //      obj.rotation.x = Math.random() * 2 * Math.PI
-      //      obj.rotation.y = Math.random() * 2 * Math.PI
-      //      obj.rotation.z = Math.random() * 2 * Math.PI
+      obj.position.x = Math.sin(theta) * 1000 - 400
+      obj.position.y = Math.cos(theta) * 1000 - 400
+      obj.position.z = Math.sin(theta2) * 1000 - 400
 
       obj.rotation.x = 0
       obj.rotation.y = 0
@@ -159,7 +155,7 @@ import scala.scalajs.js
 
   private def randomMeshLambert() = {
     val meshLambertMaterialParameters = js.Dynamic.literal(
-      "color" -> (Math.random() * 0x00ffff).toInt
+      "color" -> (Math.random() * 0xffffff).toInt
     ).asInstanceOf[MeshLambertMaterialParameters]
 
     val material = new MeshLambertMaterial(meshLambertMaterialParameters)
@@ -172,7 +168,7 @@ import scala.scalajs.js
     val lightColour = new Color(0xaaffff)
 
     val lights =
-      for (i <- 1 to 20) yield {
+      for (i <- 1 to 2) yield {
         val light = new DirectionalLight()
         light.color = lightColour
         light.position.set(150 * i, 150* i, 200 * i)
@@ -216,7 +212,7 @@ import scala.scalajs.js
     objects
   }
 
-  private def spinText(font: Font, textStr: String, n: Integer) = {
+  private def spinText(font: Font, textStr: String, n: Integer): Seq[Mesh[TextBufferGeometry, MeshLambertMaterial]] = {
 
     val objects = for (i <- 1 to n) yield {
       val material = randomMeshLambert()
@@ -231,12 +227,14 @@ import scala.scalajs.js
       val textGeometry = new TextBufferGeometry(textStr, textGeometryParameters)
 
       val obj = new Mesh(textGeometry, material)
-      obj.position.x = 800 * Math.cos(Math.PI * i/18)
-      obj.position.y = 800 * Math.sin(Math.PI * i/18)
+      //obj.position.x = 800 * Math.cos(Math.PI * i/18)
+      obj.position.x = 0
+      //obj.position.y = 800 * Math.sin(Math.PI * i/18)
+      obj.position.y = 0
       obj.position.z = 0
 
-      obj.rotation.x = 0
-      obj.rotation.y = Math.PI * i/18
+      obj.rotation.x = 2.0 * Math.PI * i/n
+      obj.rotation.y = 2.0 * Math.PI * i/n
       obj.rotation.z = 0
       //
       //      obj.scale.x = Math.random() + 0.5

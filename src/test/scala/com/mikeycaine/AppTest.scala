@@ -11,4 +11,8 @@ class AppTest extends FunSuite {
     ReactDOM.render(App(), div)
     ReactDOM.unmountComponentAtNode(div)
   }
+
+  test("another") {
+    assert(false)
+  }
 }
