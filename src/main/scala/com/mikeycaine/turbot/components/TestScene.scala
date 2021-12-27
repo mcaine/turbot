@@ -28,6 +28,8 @@ class TestScene extends Component {
 
   override def initialState: State = State(31337L)
 
+
+
   override def render(): ReactElement = {
     div(className := "test_scene")(
       p(className := "test_scene")(
@@ -48,9 +50,10 @@ class TestScene extends Component {
     try {
       val renderer: WebGLRenderer = webGLRenderer(width, height)
       val scene = sceneWithLights()
-      val camera = createCamera(width, height)
+      val camera = DefaultCamera.createCamera(width, height)
 
-      doDrawing(renderer, scene, camera)
+      val cubesAndStuff = CubesAndStuff(renderer, scene, camera)
+      cubesAndStuff.doDrawing()
     } catch {
       case ex: Throwable => println("Failed in componentDidMount() " + ex)
     }
@@ -82,118 +85,7 @@ class TestScene extends Component {
     scene
   }
 
-  def createCamera(width: Long, height: Long): PerspectiveCamera =
-    new PerspectiveCamera(60, width / height, 0.1, 10000)
-
-  def doDrawing(renderer: WebGLRenderer, scene: Scene, camera: PerspectiveCamera): Unit = {
-
-    addCubesToScene(scene)
-
-    new FontLoader().load("fonts/helvetiker_regular.typeface.json", (font: Font) => {
-      addSpinningText(scene, font)
-    })
-
-    var theta = 0.0
-    val radius = 5000.0
-
-    def moveCamera(): Unit = {
-      theta = theta + 0.1
-
-      camera.position.x = radius * Math.sin(Math.PI * theta / 180)
-      camera.position.y = 0
-      camera.position.z = radius * Math.cos(Math.PI * theta / 180)
-
-      camera.lookAt(scene.position)
-      camera.updateMatrixWorld()
-      renderer.render(scene, camera)
-    }
-
-    def animate(dummy: Double): Unit = {
-      //println("animation frame")
-      dom.window.requestAnimationFrame(animate)
-      moveCamera()
-    }
-
-    animate(0)
-  }
-
-  def addCubesToScene(scene: Scene) =
-    addItemsToScene(cubes(100), scene)
-
-  def addItemsToScene(items: Seq[Mesh[_, _]], scene: Scene) =
-    for(item <- items) {
-      scene.add(item)
-    }
-
-  def cubes(n: Integer) = {
-    val geometry = new BoxGeometry(200.0, 50.0, 50.0, 10.0, 10.0, 10.0)
-
-    val cubes = for (i <- 1 to n) yield {
-      val material = randomMeshLambert()
-      val obj = new Mesh(geometry, material)
-
-      val theta: Double = i.toDouble / n * 2 * Math.PI
-      val theta2: Double = 5 * 2 * Math.PI * i.toDouble / n
-
-      obj.position.x = Math.sin(theta) * 1000 - 400
-      obj.position.y = Math.cos(theta) * 1000 - 400
-      obj.position.z = Math.sin(theta2) * 1000 - 400
-
-      obj.rotation.x = 0
-      obj.rotation.y = 0
-      obj.rotation.z = 0
-
-      obj
-    }
-
-    cubes
-  }
-
-  def randomMeshLambert() = {
-    val meshLambertMaterialParameters = js.Dynamic.literal(
-      "color" -> (Math.random() * 0xffffff).toInt
-    ).asInstanceOf[MeshLambertMaterialParameters]
-
-    val material = new MeshLambertMaterial(meshLambertMaterialParameters)
-    material
-  }
-
-  def addSpinningText(scene: Scene, font: Font) =
-    addItemsToScene(spinText(font, "WEBGL", 10), scene)
-
-  def spinText(font: Font, textStr: String, n: Integer): Seq[Mesh[TextBufferGeometry, MeshLambertMaterial]] = {
-
-    val objects = for (i <- 1 to n) yield {
-      val material = randomMeshLambert()
-
-      val textGeometryParameters = js.Dynamic.literal(
-        "font" -> font,
-        "size" -> 800,
-        "height" -> 200
-      ).asInstanceOf[TextGeometryParameters]
-
-      //var textGeometry = new TextGeometry(textStr, textGeometryParameters)
-      val textGeometry = new TextBufferGeometry(textStr, textGeometryParameters)
-
-      val obj = new Mesh(textGeometry, material)
-      //obj.position.x = 800 * Math.cos(Math.PI * i/18)
-      obj.position.x = 0
-      //obj.position.y = 800 * Math.sin(Math.PI * i/18)
-      obj.position.y = 0
-      obj.position.z = 0
-
-      obj.rotation.x = 0
-      obj.rotation.y = 2.0 * Math.PI * i/n
-      obj.rotation.z = 0
-      //
-      //      obj.scale.x = Math.random() + 0.5
-      //      obj.scale.y = Math.random() + 0.5
-      //      obj.scale.z = Math.random() + 0.5
-
-      obj
-    }
-
-    objects
-  }
+//  def createCamera(width: Long, height: Long): PerspectiveCamera =
+//    new PerspectiveCamera(60, width / height, 0.1, 10000)
 
 }
