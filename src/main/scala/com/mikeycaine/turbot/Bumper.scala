@@ -72,20 +72,21 @@ import scala.scalajs.js
     }
 
   def addLightInsideTheBody(scene: Scene, font: Font) =
-    addItemsToScene(spinText(font, "the light inside the body", 10), scene)
+    addItemsToScene(spinText(font, "HELLO", 10), scene)
 
 
   def doDrawing(renderer: WebGLRenderer, scene: Scene, camera: PerspectiveCamera): Unit = {
 
+    addRandomCubesToScene(scene)
+
     new FontLoader().load("fonts/helvetiker_regular.typeface.json", (font: Font) => {
-
-      addRandomCubesToScene(scene)
       addLightInsideTheBody(scene, font)
+    })
 
-      var theta: Double = 0
-      val radius = 3000
+    var theta = 0.0
+    val radius = 5000.0
 
-      def render(): Unit = {
+    def render(): Unit = {
       theta = theta + 0.1
 
       camera.position.x = radius * Math.sin(Math.PI * theta / 180)
@@ -97,15 +98,13 @@ import scala.scalajs.js
       renderer.render(scene, camera)
     }
 
-    def animate(p: Double): Unit = {
-      println("animation frame")
+    def animate(dummy: Double): Unit = {
+      //println("animation frame")
       dom.window.requestAnimationFrame(animate)
       render()
     }
 
     animate(0)
-
-    })
   }
 
   def createCamera(width: Long, height: Long): PerspectiveCamera = {
@@ -131,7 +130,7 @@ import scala.scalajs.js
   }
 
   private def randomCubes(n: Integer) = {
-    val geometry = new BoxGeometry(50.0, 50.0, 50.0, 10.0, 10.0, 10.0)
+    val geometry = new BoxGeometry(200.0, 50.0, 50.0, 10.0, 10.0, 10.0)
 
     val cubes = for (i <- 1 to n) yield {
       val material = randomMeshLambert()
@@ -143,10 +142,6 @@ import scala.scalajs.js
       obj.position.x = Math.sin(theta) * 1000 - 400
       obj.position.y = Math.cos(theta) * 1000 - 400
       obj.position.z = Math.sin(theta2) * 1000 - 400
-
-      //      obj.rotation.x = Math.random() * 2 * Math.PI
-      //      obj.rotation.y = Math.random() * 2 * Math.PI
-      //      obj.rotation.z = Math.random() * 2 * Math.PI
 
       obj.rotation.x = 0
       obj.rotation.y = 0
@@ -160,7 +155,7 @@ import scala.scalajs.js
 
   private def randomMeshLambert() = {
     val meshLambertMaterialParameters = js.Dynamic.literal(
-      "color" -> (Math.random() * 0x00ffff).toInt
+      "color" -> (Math.random() * 0xffffff).toInt
     ).asInstanceOf[MeshLambertMaterialParameters]
 
     val material = new MeshLambertMaterial(meshLambertMaterialParameters)
@@ -232,12 +227,14 @@ import scala.scalajs.js
       val textGeometry = new TextBufferGeometry(textStr, textGeometryParameters)
 
       val obj = new Mesh(textGeometry, material)
-      obj.position.x = 800 * Math.cos(Math.PI * i/18)
-      obj.position.y = 800 * Math.sin(Math.PI * i/18)
+      //obj.position.x = 800 * Math.cos(Math.PI * i/18)
+      obj.position.x = 0
+      //obj.position.y = 800 * Math.sin(Math.PI * i/18)
+      obj.position.y = 0
       obj.position.z = 0
 
-      obj.rotation.x = 0
-      obj.rotation.y = Math.PI * i/18
+      obj.rotation.x = 2.0 * Math.PI * i/n
+      obj.rotation.y = 2.0 * Math.PI * i/n
       obj.rotation.z = 0
       //
       //      obj.scale.x = Math.random() + 0.5
