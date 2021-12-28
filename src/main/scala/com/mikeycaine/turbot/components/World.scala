@@ -1,13 +1,21 @@
 package com.mikeycaine.turbot.components
 
 import org.scalajs.dom
+import typings.three.ambientLightMod.AmbientLight
 import typings.three.fontLoaderMod.FontLoader
 import typings.three.fontMod.Font
+import typings.three.meshBasicMaterialMod.{MeshBasicMaterial, MeshBasicMaterialParameters}
 import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
 import typings.three.meshMod.Mesh
 import typings.three.sceneMod.Scene
+import typings.three.sphereGeometryMod.SphereGeometry
 import typings.three.textGeometryMod.{TextBufferGeometry, TextGeometryParameters}
+import typings.three.textureLoaderMod.TextureLoader
+import typings.three.textureMod
+import typings.three.vector3Mod.Vector3
 import typings.three.webGLRendererMod.WebGLRenderer
+
+import scala.scalajs.js
 
 case class World(elemId: String, width: Int, height: Int) {
 
@@ -19,22 +27,37 @@ case class World(elemId: String, width: Int, height: Int) {
     new MeshLambertMaterial(meshLambertMaterialParameters)
   })
 
-  val scene1 = SceneWithLights.sceneWithLights()
-  val camera1 = DefaultCamera.createCamera(width, height)
-  val renderer1: WebGLRenderer = WebGL.webGLRenderer(elemId, width, height)
+  val scene = SceneUtils.newScene()
+  val ambientLightColour = 0xffaaaa
+  val ambientLight = new AmbientLight(ambientLightColour)
+  scene.add(ambientLight)
 
-  val scene2 = SceneWithLights.anotherScene()
-  val camera2 = DefaultCamera.createCamera(width, height)
-  val renderer2: WebGLRenderer = WebGL.webGLRenderer(elemId, width, height)
+  val camera = CameraUtils.newCamera(width, height)
+
+  val renderer: WebGLRenderer = WebGL.webGLRenderer(elemId, width, height)
 
   new FontLoader().load("fonts/Old computer St_Regular.json", (font: Font) => {
-    drawText(scene1, font, "ONE WORLD")
-    drawText(scene2, font, "TWO WORLD")
+    drawText(scene, font, "Fran")
   })
+
+  val textureLoader = new TextureLoader()
+  val texture: textureMod.Texture = textureLoader.load("./img/skye.jpg")
+
+  val meshBasicMaterialParameters = js.Dynamic.literal("map" -> texture).asInstanceOf[MeshBasicMaterialParameters]
+
+  val geometry = new SphereGeometry(5, 60, 40, 0, Math.PI * 2, 0, Math.PI)
+  geometry.scale(-1, 1, 1)
+
+  val material = new MeshBasicMaterial(meshBasicMaterialParameters)
+  val sphere = new Mesh(geometry, material)
+
+  scene.add(sphere)
+
+
 
   def drawText(theScene: Scene, font: Font, textStr: String): Unit = {
 
-    val fontSize = 500
+    val fontSize = 0.5
 
     val textGeomParams = TextGeometryParameters(font)
     textGeomParams.size = fontSize
@@ -44,9 +67,9 @@ case class World(elemId: String, width: Int, height: Int) {
 
     val obj = new Mesh(textGeometry, meshLambertMaterials(5))
 
-    obj.position.x = -2300
-    obj.position.y = -700
-    obj.position.z = 0
+    obj.position.x = -2
+    obj.position.y = -1
+    obj.position.z = -2
 
     obj.rotation.x = 0
     obj.rotation.y = 0
@@ -55,33 +78,16 @@ case class World(elemId: String, width: Int, height: Int) {
     theScene.add(obj)
   }
 
-
-  var theta = -90.0
+  var theta = 180.0
 
   def moveCameras(): Unit = {
-    theta = theta + 0.5
-//    if (theta > 90) {
-//      theta = -90.0
-//    }
+    theta = theta + 0.2
 
-    val radius = 3000
+    val vector = new Vector3(Math.sin(Math.PI * theta/180), 0.2 , Math.cos(Math.PI * theta/180))
+    camera.lookAt(vector)
 
-    camera1.position.x = radius * Math.sin(Math.PI * theta / 180)
-    camera1.position.y = 0.2 * radius * Math.sin(Math.PI * theta / 180)
-    camera1.position.z = radius * Math.cos(Math.PI * theta / 180)
-    camera1.lookAt(scene1.position)
-    camera1.updateMatrixWorld()
+    renderer.render(scene, camera)
 
-    camera2.position.x = radius * Math.sin(Math.PI * theta / 180)
-    camera2.position.y = 0.2 * radius * Math.sin(Math.PI * theta / 180)
-    camera2.position.z = radius * Math.cos(Math.PI * theta / 180)
-    camera2.lookAt(scene2.position)
-    camera2.updateMatrixWorld()
-
-
-
-    renderer1.render(scene1, camera1)
-    renderer2.render(scene2, camera2)
   }
 
   def animate(dummy: Double): Unit = {
