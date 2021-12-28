@@ -16,21 +16,7 @@ import scala.util.Random
 
 case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
 
-  val colours = for (i <- 1 to 10) yield {
-
-    val factor = 1.0
-    val redVariance = factor
-    val greenVariance = factor
-    val blueVariance = factor
-
-    val r = new Random()
-    val redDelta = r.nextGaussian() * redVariance
-    val greenDelta = r.nextGaussian() * greenVariance
-    val blueDelta = r.nextGaussian() * blueVariance
-
-    0x77777 + 0xff000 * redDelta + 0x00ff00 * greenDelta + blueDelta
-
-  }
+  val colours = ColourScheme.colours
 
 
   val materials = colours map (col => {
@@ -93,7 +79,7 @@ case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
       }
 
     new FontLoader().load("fonts/Old computer St_Regular.json", (font: Font) => {
-      drawText(font, "Fair Isle")
+      drawText(font, "Knitwear")
     })
   }
 
@@ -128,12 +114,12 @@ case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
     case _ => materials(4)
   }
 
-  var theta = -100.0
+  var theta = -90.0
 
   def moveCamera(): Unit = {
     theta = theta + 0.5
     if (theta > 90) {
-      theta = -100.0
+      theta = -90.0
     }
 
     val radius = 3000
