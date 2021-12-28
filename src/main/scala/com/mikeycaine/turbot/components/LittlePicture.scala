@@ -8,9 +8,11 @@ import slinky.web.html.{className, div, id, p}
 import typings.std.global.document
 import typings.three.webGLRendererMod.{WebGLRenderer, WebGLRendererParameters}
 
+import scala.util.Random
+
 @react
-class TestScene extends Component {
-  case class Props(elemId: String, name: String)
+class LittlePicture extends Component {
+  case class Props(elemId: String, name: String, drawingName: String)
   case class State(count: Long)
 
   override def initialState: State = State(31337L)
@@ -18,7 +20,7 @@ class TestScene extends Component {
   override def render(): ReactElement = {
     div(className := "test_scene")(
 //      p(className := "test_scene")(
-//        "Test Scene: " + props.name
+//        "Little Picture: " + props.name
 //      ),
       div(id := props.elemId)
     )
@@ -26,20 +28,26 @@ class TestScene extends Component {
 
   override def componentDidMount(): Unit = {
 
-    val width = document.getElementById(props.elemId).clientWidth - 5
-    val height = dom.window.innerHeight.toInt - 5
-
-    println(s">> width is $width")
-    println(s">> height is $height")
+    val width = Math.min(1500, document.getElementById(props.elemId).clientWidth - 5)
+    val height = 500
 
     try {
       val renderer: WebGLRenderer = webGLRenderer(width, height)
       val scene = SceneWithLights.sceneWithLights()
       val camera = DefaultCamera.createCamera(width, height)
 
-      //CubesAndStuff(renderer, scene, camera).doDrawing()
-      //Knitwear(renderer, scene, camera).doDrawing()
-      //TorusKnotDemo(renderer, scene, camera).doDrawing()
+
+      if (props.drawingName.equals("cubes")) {
+        CubesAndStuff(renderer, scene, camera).doDrawing()
+      }
+
+      if (props.drawingName.equals("knitwear")) {
+        Knitwear(renderer, scene, camera).doDrawing()
+      }
+
+      if (props.drawingName.equals("torus")) {
+        TorusKnotDemo(renderer, scene, camera).doDrawing()
+      }
     } catch {
       case ex: Throwable => println("Failed in componentDidMount() " + ex)
     }

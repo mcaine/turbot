@@ -70,6 +70,7 @@ case class TorusKnotDemo(renderer: WebGLRenderer, scene: Scene, camera: Camera) 
 
   var theta = -90.0
 
+
   def moveCamera(): Unit = {
     theta = theta + 1.0
 //    if (theta > 90) {

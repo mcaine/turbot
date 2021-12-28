@@ -1,14 +1,16 @@
 package com.mikeycaine.turbot
 
 import com.mikeycaine.turbot.components.TestScene
+import com.mikeycaine.turbot.components.LittlePicture
 import slinky.core._
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
 import slinky.web.html._
 
 import java.time.Instant
-import java.time.temporal.{ChronoField, Temporal, TemporalField}
+import java.time.temporal.{ChronoField, Temporal, TemporalField, TemporalUnit}
 import scala.scalajs.js
+import scala.scalajs.js.Date
 import scala.scalajs.js.annotation.JSImport
 
 @JSImport("resources/App.css", JSImport.Default)
@@ -27,6 +29,11 @@ object ReactLogo extends js.Object
   //noinspection SpellCheckingInspection
   override def render(): ReactElement = {
 
+    val date = new Date()
+    val clockHours = date.getHours().toInt
+    val clockMinutes = date.getMinutes().toInt
+    val clockSeconds = date.getSeconds().toInt
+
     //noinspection SpellCheckingInspection
     div(className := "App")(
 //      header(className := "App-header")(
@@ -35,12 +42,13 @@ object ReactLogo extends js.Object
       //TodoApp(),
       //SvgClock(10, 15, 0, true),
       //SvgClock(12, 0, 35, false),
-      //SvgClock(4, 20, 60, false),
       //SvgClock(18, 45, 17, true),
-      //SvgClock(23, 25, 11, true),
+
       //SvgClock(4, 53, 480, true),
       //Kitchen("abc", "def"),
-      TestScene("awesome", "11")
+      LittlePicture("amazing", "12", "torus"),
+      SvgClock(clockHours, clockMinutes, clockSeconds, true),
+      LittlePicture("awesome", "11", "knitwear")
     )
   }
 }
