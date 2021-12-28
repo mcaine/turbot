@@ -3,6 +3,7 @@ package com.mikeycaine.turbot
 import com.mikeycaine.turbot.components.TestScene
 import com.mikeycaine.turbot.components.LittlePicture
 import com.mikeycaine.turbot.components.WorldContainer
+import com.mikeycaine.turbot.components.FullsizeContainer
 import slinky.core._
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
@@ -50,7 +51,8 @@ object ReactLogo extends js.Object
       //LittlePicture("amazing2", "12", "knitwear"),
       //LittlePicture("amazing3", "12", "torus"),
       //SvgClock(clockHours, clockMinutes, clockSeconds, true),
-      WorldContainer("awesome", "11", "world")
+      //WorldContainer("awesome", "11", "world"),
+        FullsizeContainer("awesome", "11", "world")
     )
   }
 }

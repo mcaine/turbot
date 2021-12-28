@@ -60,9 +60,9 @@ case class World(elemId: String, width: Int, height: Int) {
 
   def moveCameras(): Unit = {
     theta = theta + 0.5
-    if (theta > 90) {
-      theta = -90.0
-    }
+//    if (theta > 90) {
+//      theta = -90.0
+//    }
 
     val radius = 3000
 
