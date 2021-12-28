@@ -1,28 +1,25 @@
 package com.mikeycaine.turbot.components
 
-
 import com.mikeycaine.turbot.patterns.Pattern
 import org.scalajs.dom
 import typings.three.boxGeometryMod.BoxGeometry
 import typings.three.cameraMod.Camera
+import typings.three.coneGeometryMod.ConeGeometry
+import typings.three.dodecahedronGeometryMod.DodecahedronGeometry
 import typings.three.fontLoaderMod.FontLoader
 import typings.three.fontMod.Font
+import typings.three.geometriesMod.TorusKnotGeometry
+import typings.three.global.THREE
 import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
 import typings.three.meshMod.Mesh
 import typings.three.sceneMod.Scene
 import typings.three.textGeometryMod.{TextBufferGeometry, TextGeometryParameters}
+import typings.three.torusGeometryMod.TorusGeometry
 import typings.three.webGLRendererMod.WebGLRenderer
-
-import scala.scalajs.js
-import scala.util.Random
 
 case class TorusKnotDemo(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
 
-  val colours = for (i <- 1 to 10) yield {
-    val r = new Random()
-    //0x77777 + r.nextGaussian() * 0x111111
-    0xdddddd + r.nextGaussian() * 100L
-  }
+  val colours = ColourScheme.colours
 
 
   val materials = colours map (col => {
@@ -33,16 +30,24 @@ case class TorusKnotDemo(renderer: WebGLRenderer, scene: Scene, camera: Camera) 
 
 
   def doDrawing(): Unit = {
-    val geometry = new BoxGeometry(50.0, 50.0, 10.0, 1, 1, 1)
 
-    new FontLoader().load("fonts/Pacifico_Regular.json", (font: Font) => {
-      drawText(font, "Torus Knot")
+    val geometry2 = new DodecahedronGeometry(30.0)
+    scene.add( new Mesh(geometry2, materials(1)) )
+    scene.add(new Mesh(new TorusGeometry(60, 20, 100, 100), materials(3)) )
+    scene.add(new Mesh(new TorusGeometry(80, 20, 100, 100), materials(4)) )
+    scene.add(new Mesh(new TorusGeometry(100, 20, 100, 100), materials(3)) )
+    scene.add(new Mesh(new TorusGeometry(120, 20, 100, 100), materials(4)) )
+
+    val fontPath = "fonts/Pacifico_Regular.json"
+    val fontPath2 = "fonts/Old computer St_Regular.json"
+    new FontLoader().load(fontPath, (font: Font) => {
+      drawText(font, "TORUS NOT, more like")
     })
   }
 
   def drawText(font: Font, textStr: String): Unit = {
 
-    val fontSize = 500
+    val fontSize = 6
 
     val textGeomParams = TextGeometryParameters(font)
     textGeomParams.size = fontSize
@@ -52,9 +57,9 @@ case class TorusKnotDemo(renderer: WebGLRenderer, scene: Scene, camera: Camera) 
 
     val obj = new Mesh(textGeometry, materials(5))
 
-    obj.position.x = -2300
-    obj.position.y = -700
-    obj.position.z = 0
+    obj.position.x = -60
+    obj.position.y = 20
+    obj.position.z = 20
 
     obj.rotation.x = 0
     obj.rotation.y = 0
@@ -63,23 +68,15 @@ case class TorusKnotDemo(renderer: WebGLRenderer, scene: Scene, camera: Camera) 
     scene.add(obj)
   }
 
-  def meshLambert(c: String): MeshLambertMaterial = c match {
-    case _ if c.equals("*") => materials(0)
-    case _ if c.equals("-") => materials(1)
-    case _ if c.equals("@") => materials(2)
-    case _ if c.equals("#") => materials(3)
-    case _ => materials(4)
-  }
-
   var theta = -90.0
 
   def moveCamera(): Unit = {
-    theta = theta + 0.5
-    if (theta > 90) {
-      theta = -90.0
-    }
+    theta = theta + 1.0
+//    if (theta > 90) {
+//      theta = -90.0
+//    }
 
-    val radius = 3000
+    val radius = 100
 
     camera.position.x = radius * Math.sin(Math.PI * theta / 180)
     camera.position.y = 0.2 * radius * Math.sin(Math.PI * theta / 180)
