@@ -19,15 +19,12 @@ import typings.three.webGLRendererMod.WebGLRenderer
 
 case class TorusKnotDemo(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
 
-  val colours = ColourScheme.colours
-
-
-  val materials = colours map (col => {
+  private val colours: Seq[Double] = ColourScheme.colours
+  private val materials: Seq[MeshLambertMaterial] = colours map (col => {
     val meshLambertMaterialParameters = MeshLambertMaterialParameters()
     meshLambertMaterialParameters.color = col
     new MeshLambertMaterial(meshLambertMaterialParameters)
   })
-
 
   def doDrawing(): Unit = {
 
@@ -68,30 +65,23 @@ case class TorusKnotDemo(renderer: WebGLRenderer, scene: Scene, camera: Camera) 
     scene.add(obj)
   }
 
-  var theta = -90.0
+  def moveCamera(t: Double): Unit = {
 
+    val speed = 0.001
+    val radius = 200
 
-  def moveCamera(): Unit = {
-    theta = theta + 1.0
-//    if (theta > 90) {
-//      theta = -90.0
-//    }
-
-    val radius = 100
-
-    camera.position.x = radius * Math.sin(Math.PI * theta / 180)
-    camera.position.y = 0.2 * radius * Math.sin(Math.PI * theta / 180)
-    camera.position.z = radius * Math.cos(Math.PI * theta / 180)
+    camera.position.x = radius * Math.sin(speed * t)
+    camera.position.y = 0.2 * radius * Math.sin(speed * t)
+    camera.position.z = radius * Math.cos(speed * t)
 
     camera.lookAt(scene.position)
     camera.updateMatrixWorld()
     renderer.render(scene, camera)
   }
 
-  def animate(dummy: Double): Unit = {
-    //println("animation frame")
+  def animate(t: Double): Unit = {
     dom.window.requestAnimationFrame(animate)
-    moveCamera()
+    moveCamera(t)
   }
 
   animate(0.0)

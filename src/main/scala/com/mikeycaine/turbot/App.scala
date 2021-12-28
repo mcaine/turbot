@@ -7,8 +7,6 @@ import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
 import slinky.web.html._
 
-import java.time.Instant
-import java.time.temporal.{ChronoField, Temporal, TemporalField, TemporalUnit}
 import scala.scalajs.js
 import scala.scalajs.js.Date
 import scala.scalajs.js.annotation.JSImport
@@ -44,11 +42,14 @@ object ReactLogo extends js.Object
       //SvgClock(12, 0, 35, false),
       //SvgClock(18, 45, 17, true),
 
-      //SvgClock(4, 53, 480, true),
-      //Kitchen("abc", "def"),
-      LittlePicture("amazing", "12", "torus"),
       SvgClock(clockHours, clockMinutes, clockSeconds, true),
-      LittlePicture("awesome", "11", "knitwear")
+      //Kitchen("abc", "def"),
+      //TestScene("amazing", "12", "torus"),
+      LittlePicture("amazing", "12", "cubes"),
+      LittlePicture("amazing2", "12", "knitwear"),
+      LittlePicture("amazing3", "12", "torus"),
+      //SvgClock(clockHours, clockMinutes, clockSeconds, true),
+      //TestScene("awesome", "11")
     )
   }
 }

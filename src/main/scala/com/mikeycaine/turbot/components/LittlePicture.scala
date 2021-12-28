@@ -29,13 +29,13 @@ class LittlePicture extends Component {
   override def componentDidMount(): Unit = {
 
     val width = Math.min(1500, document.getElementById(props.elemId).clientWidth - 5)
-    val height = 500
+    //val width = 1000
+    val height = 600
 
     try {
-      val renderer: WebGLRenderer = webGLRenderer(width, height)
-      val scene = SceneWithLights.sceneWithLights()
+      val renderer: WebGLRenderer = WebGL.webGLRenderer(props.elemId, width, height)
+      val scene = SceneWithLights.anotherScene()
       val camera = DefaultCamera.createCamera(width, height)
-
 
       if (props.drawingName.equals("cubes")) {
         CubesAndStuff(renderer, scene, camera).doDrawing()
@@ -51,14 +51,5 @@ class LittlePicture extends Component {
     } catch {
       case ex: Throwable => println("Failed in componentDidMount() " + ex)
     }
-  }
-
-  private def webGLRenderer(innerWidth: Long, innerHeight: Long) = {
-    println("Creating a WebGLRenderer")
-    val webGLRendererParameters = WebGLRendererParameters()
-    val renderer = new WebGLRenderer(webGLRendererParameters)
-    renderer.setSize(innerWidth, innerHeight)
-    document.getElementById(props.elemId).appendChild(renderer.domElement)
-    renderer
   }
 }

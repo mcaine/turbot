@@ -10,7 +10,7 @@ import typings.three.webGLRendererMod.{WebGLRenderer, WebGLRendererParameters}
 
 @react
 class TestScene extends Component {
-  case class Props(elemId: String, name: String)
+  case class Props(elemId: String, name: String, drawingName: String)
   case class State(count: Long)
 
   override def initialState: State = State(31337L)
@@ -33,9 +33,21 @@ class TestScene extends Component {
     println(s">> height is $height")
 
     try {
-      val renderer: WebGLRenderer = webGLRenderer(width, height)
+      val renderer: WebGLRenderer = WebGL.webGLRenderer(props.elemId, width, height)
       val scene = SceneWithLights.sceneWithLights()
       val camera = DefaultCamera.createCamera(width, height)
+
+      if (props.drawingName.equals("cubes")) {
+        CubesAndStuff(renderer, scene, camera).doDrawing()
+      }
+
+      if (props.drawingName.equals("knitwear")) {
+        Knitwear(renderer, scene, camera).doDrawing()
+      }
+
+      if (props.drawingName.equals("torus")) {
+        TorusKnotDemo(renderer, scene, camera).doDrawing()
+      }
 
       //CubesAndStuff(renderer, scene, camera).doDrawing()
       //Knitwear(renderer, scene, camera).doDrawing()
@@ -45,12 +57,12 @@ class TestScene extends Component {
     }
   }
 
-  private def webGLRenderer(innerWidth: Long, innerHeight: Long) = {
-    println("Creating a WebGLRenderer")
-    val webGLRendererParameters = WebGLRendererParameters()
-    val renderer = new WebGLRenderer(webGLRendererParameters)
-    renderer.setSize(innerWidth, innerHeight)
-    document.getElementById(props.elemId).appendChild(renderer.domElement)
-    renderer
-  }
+//  private def webGLRenderer(innerWidth: Long, innerHeight: Long) = {
+//    println("Creating a WebGLRenderer")
+//    val webGLRendererParameters = WebGLRendererParameters()
+//    val renderer = new WebGLRenderer(webGLRendererParameters)
+//    renderer.setSize(innerWidth, innerHeight)
+//    document.getElementById(props.elemId).appendChild(renderer.domElement)
+//    renderer
+//  }
 }
