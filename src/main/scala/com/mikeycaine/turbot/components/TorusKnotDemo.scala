@@ -1,5 +1,6 @@
 package com.mikeycaine.turbot.components
 
+
 import com.mikeycaine.turbot.patterns.Pattern
 import org.scalajs.dom
 import typings.three.boxGeometryMod.BoxGeometry
@@ -12,23 +13,24 @@ import typings.three.sceneMod.Scene
 import typings.three.textGeometryMod.{TextBufferGeometry, TextGeometryParameters}
 import typings.three.webGLRendererMod.WebGLRenderer
 
+import scala.scalajs.js
 import scala.util.Random
 
-case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
+case class TorusKnotDemo(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
 
   val colours = for (i <- 1 to 10) yield {
 
-    val factor = 1.0
+    val factor = 0.25
     val redVariance = factor
     val greenVariance = factor
     val blueVariance = factor
 
     val r = new Random()
-    val redDelta = r.nextGaussian() * redVariance
-    val greenDelta = r.nextGaussian() * greenVariance
-    val blueDelta = r.nextGaussian() * blueVariance
+//    val redDelta = r.nextGaussian() * redVariance
+//    val greenDelta = r.nextGaussian() * greenVariance
+//    val blueDelta = r.nextGaussian() * blueVariance
 
-    0x77777 + 0xff000 * redDelta + 0x00ff00 * greenDelta + blueDelta
+    0x77777 + r.nextGaussian() * 0x111111
 
   }
 
@@ -39,7 +41,7 @@ case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
     new MeshLambertMaterial(meshLambertMaterialParameters)
   })
 
-//
+  //
   //val radius = 4000.0
 
   val pattern1 = Pattern(
@@ -128,7 +130,7 @@ case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
     case _ => materials(4)
   }
 
-  var theta = -100.0
+  var theta = -90.0
 
   def moveCamera(): Unit = {
     theta = theta + 0.5

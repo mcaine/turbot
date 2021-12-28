@@ -4,7 +4,7 @@ import org.scalajs.dom
 import slinky.core.Component
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
-import slinky.web.html.{className, div, id}
+import slinky.web.html.{className, div, id, p}
 import typings.std.global.document
 import typings.three.webGLRendererMod.{WebGLRenderer, WebGLRendererParameters}
 
@@ -17,9 +17,9 @@ class TestScene extends Component {
 
   override def render(): ReactElement = {
     div(className := "test_scene")(
-//      p(className := "test_scene")(
-//        "Test Scene: " + props.name
-//      ),
+      p(className := "test_scene")(
+        "Test Scene: " + props.name
+      ),
       div(id := props.elemId)
     )
   }
@@ -38,7 +38,8 @@ class TestScene extends Component {
       val camera = DefaultCamera.createCamera(width, height)
 
       //CubesAndStuff(renderer, scene, camera).doDrawing()
-      Knitwear(renderer, scene, camera).doDrawing()
+      //Knitwear(renderer, scene, camera).doDrawing()
+      TorusKnotDemo(renderer, scene, camera).doDrawing()
     } catch {
       case ex: Throwable => println("Failed in componentDidMount() " + ex)
     }
