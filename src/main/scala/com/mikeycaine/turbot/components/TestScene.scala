@@ -3,13 +3,14 @@ package com.mikeycaine.turbot.components
 import org.scalajs.dom
 import slinky.core.Component
 import slinky.core.annotations.react
-import slinky.core.facade.ReactElement
+import slinky.core.facade.{ReactElement, ReactRef}
 import slinky.web.html.{className, div, id, p}
 import typings.std.global.document
 import typings.three.webGLRendererMod.{WebGLRenderer, WebGLRendererParameters}
 
 @react
 class TestScene extends Component {
+
   case class Props(elemId: String, name: String, drawingName: String)
   case class State(count: Long)
 

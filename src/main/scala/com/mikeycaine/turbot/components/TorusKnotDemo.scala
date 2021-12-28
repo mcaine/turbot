@@ -1,6 +1,6 @@
 package com.mikeycaine.turbot.components
 
-import com.mikeycaine.turbot.patterns.Pattern
+//import com.mikeycaine.turbot.patterns.Pattern
 import org.scalajs.dom
 import typings.three.boxGeometryMod.BoxGeometry
 import typings.three.cameraMod.Camera
