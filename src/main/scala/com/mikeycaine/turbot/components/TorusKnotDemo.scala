@@ -19,19 +19,9 @@ import scala.util.Random
 case class TorusKnotDemo(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
 
   val colours = for (i <- 1 to 10) yield {
-
-    val factor = 0.25
-    val redVariance = factor
-    val greenVariance = factor
-    val blueVariance = factor
-
     val r = new Random()
-//    val redDelta = r.nextGaussian() * redVariance
-//    val greenDelta = r.nextGaussian() * greenVariance
-//    val blueDelta = r.nextGaussian() * blueVariance
-
-    0x77777 + r.nextGaussian() * 0x111111
-
+    //0x77777 + r.nextGaussian() * 0x111111
+    0xdddddd + r.nextGaussian() * 100L
   }
 
 
@@ -41,61 +31,12 @@ case class TorusKnotDemo(renderer: WebGLRenderer, scene: Scene, camera: Camera) 
     new MeshLambertMaterial(meshLambertMaterialParameters)
   })
 
-  //
-  //val radius = 4000.0
-
-  val pattern1 = Pattern(
-    "###***@@*---*@@***###",
-    "##**@@*--***--*@@**##",
-    "#**@@*--**-**--*@@**#",
-    "**@@*--**---**--*@@**",
-    "*@@*--**-----**--*@@*",
-    "**@@*--**---**--*@@**",
-    "#**@@*--**-**--*@@**#",
-    "##**@@*--***--*@@**##",
-    "###***@@*---*@@***###",
-  )
-
-  val pattern2 = Pattern(
-    "*********************",
-    "*********************",
-    "*********************",
-    "*********************",
-    "*********************",
-    "*********************",
-    "*********************",
-    "*********************",
-    "*********************",
-  )
-
-
-  val pattern3 = pattern1 nextTo pattern2
-  val pattern4 = pattern2 nextTo pattern1
-  val pattern5 = pattern1 above pattern2
 
   def doDrawing(): Unit = {
-    val pattern = pattern5
     val geometry = new BoxGeometry(50.0, 50.0, 10.0, 1, 1, 1)
 
-    for (x <- 0 until pattern.rowLength * 16)
-      for (y <- 0 until pattern.nRows * 16) {
-
-        val material = meshLambert(pattern.charAt(x, y).toString)
-        val obj = new Mesh(geometry, material)
-
-        obj.position.x = -10000 + 50 * x
-        obj.position.y = -7000 + 50 * y
-        obj.position.z = 0
-
-        obj.rotation.x = 0
-        obj.rotation.y = 0
-        obj.rotation.z = 0
-
-        scene add obj
-      }
-
-    new FontLoader().load("fonts/Old computer St_Regular.json", (font: Font) => {
-      drawText(font, "Fair Isle")
+    new FontLoader().load("fonts/Pacifico_Regular.json", (font: Font) => {
+      drawText(font, "Torus Knot")
     })
   }
 
@@ -135,7 +76,7 @@ case class TorusKnotDemo(renderer: WebGLRenderer, scene: Scene, camera: Camera) 
   def moveCamera(): Unit = {
     theta = theta + 0.5
     if (theta > 90) {
-      theta = -100.0
+      theta = -90.0
     }
 
     val radius = 3000
