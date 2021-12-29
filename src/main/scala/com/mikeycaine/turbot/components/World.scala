@@ -3,6 +3,8 @@ package com.mikeycaine.turbot.components
 import org.scalajs.dom
 import typings.three.ambientLightMod.AmbientLight
 import typings.three.fontLoaderMod.{Font, FontLoader}
+import typings.three.textGeometryMod.{TextBufferGeometry, TextGeometry, TextGeometryParameters}
+//import typings.three.fontLoaderMod.{Font, FontLoader}
 import typings.three.meshBasicMaterialMod.{MeshBasicMaterial, MeshBasicMaterialParameters}
 import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
 import typings.three.meshMod.Mesh
@@ -10,9 +12,9 @@ import typings.three.sceneMod.Scene
 import typings.three.shaderMaterialMod.{ShaderMaterial, ShaderMaterialParameters}
 import typings.three.shaderMaterialMod.ShaderMaterialParameters.ShaderMaterialParametersMutableBuilder
 import typings.three.sphereGeometryMod.SphereGeometry
-import typings.three.textGeometryMod.{TextBufferGeometry, TextGeometryParameters}
 import typings.three.textureLoaderMod.TextureLoader
 import typings.three.textureMod
+import typings.three.textureMod.Texture
 import typings.three.vector3Mod.Vector3
 import typings.three.webGLRendererMod.WebGLRenderer
 
@@ -29,20 +31,18 @@ case class World(elemId: String, width: Int, height: Int) {
   })
 
   val scene = SceneUtils.sceneWithAmbientLight
-//  val ambientLightColour = 0xffaaaa
-//  val ambientLight = new AmbientLight(ambientLightColour)
-//  scene.add(ambientLight)
 
   val camera = CameraUtils.newCamera(width, height)
 
   val renderer: WebGLRenderer = WebGL.webGLRenderer(elemId, width, height)
 
-  new FontLoader().load("fonts/Old computer St_Regular.json", (font: Font) => {
+  val fontLoader = new FontLoader()
+  fontLoader.load("fonts/Pacifico_Regular.json", (font: Font) => {
     drawText(scene, font, "Fran")
   })
 
   val textureLoader = new TextureLoader()
-  val texture = textureLoader.load("./img/skye.jpg")
+  val texture: Texture = textureLoader.load("./img/skye.jpg")
 
   val meshBasicMaterialParameters = js.Dynamic.literal("map" -> texture).asInstanceOf[MeshBasicMaterialParameters]
 
@@ -52,7 +52,7 @@ case class World(elemId: String, width: Int, height: Int) {
   val material = new MeshBasicMaterial(meshBasicMaterialParameters)
   val sphere = new Mesh(geometry, material)
 
-  //scene.add(sphere)
+  scene.add(sphere)
 
   val vertexShader =
     """void main() {
@@ -83,7 +83,7 @@ case class World(elemId: String, width: Int, height: Int) {
     textGeomParams.size = fontSize
     textGeomParams.height = fontSize / 5
 
-    val textGeometry = new TextBufferGeometry(textStr, textGeomParams)
+    val textGeometry = new TextGeometry(textStr, textGeomParams)
 
     val obj = new Mesh(textGeometry, meshLambertMaterials(5))
 
