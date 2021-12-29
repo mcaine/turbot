@@ -8,12 +8,16 @@ import typings.three.meshBasicMaterialMod.{MeshBasicMaterial, MeshBasicMaterialP
 import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
 import typings.three.meshMod.Mesh
 import typings.three.sceneMod.Scene
+import typings.three.shaderMaterialMod.{ShaderMaterial, ShaderMaterialParameters}
+import typings.three.shaderMaterialMod.ShaderMaterialParameters.ShaderMaterialParametersMutableBuilder
 import typings.three.sphereGeometryMod.SphereGeometry
 import typings.three.textGeometryMod.{TextBufferGeometry, TextGeometryParameters}
 import typings.three.textureLoaderMod.TextureLoader
 import typings.three.textureMod
 import typings.three.vector3Mod.Vector3
 import typings.three.webGLRendererMod.WebGLRenderer
+
+import typings.three.
 
 import scala.scalajs.js
 
@@ -27,10 +31,10 @@ case class World(elemId: String, width: Int, height: Int) {
     new MeshLambertMaterial(meshLambertMaterialParameters)
   })
 
-  val scene = SceneUtils.newScene()
-  val ambientLightColour = 0xffaaaa
-  val ambientLight = new AmbientLight(ambientLightColour)
-  scene.add(ambientLight)
+  val scene = SceneUtils.sceneWithAmbientLight
+//  val ambientLightColour = 0xffaaaa
+//  val ambientLight = new AmbientLight(ambientLightColour)
+//  scene.add(ambientLight)
 
   val camera = CameraUtils.newCamera(width, height)
 
@@ -40,19 +44,38 @@ case class World(elemId: String, width: Int, height: Int) {
     drawText(scene, font, "Fran")
   })
 
-  val textureLoader = new TextureLoader()
-  val texture: textureMod.Texture = textureLoader.load("./img/skye.jpg")
+//  val textureLoader = new TextureLoader()
+//  val texture = textureLoader.load("./img/skye.jpg")
+//
+//  val meshBasicMaterialParameters = js.Dynamic.literal("map" -> texture).asInstanceOf[MeshBasicMaterialParameters]
+//
+//  val geometry = new SphereGeometry(5, 60, 40, 0, Math.PI * 2, 0, Math.PI)
+//  geometry.scale(-1, 1, 1)
+//
+//  val material = new MeshBasicMaterial(meshBasicMaterialParameters)
+//  val sphere = new Mesh(geometry, material)
+//
+//  scene.add(sphere)
 
-  val meshBasicMaterialParameters = js.Dynamic.literal("map" -> texture).asInstanceOf[MeshBasicMaterialParameters]
+  val vertexShader =
+    """void main() {
+      |  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      |}
+      |""".stripMargin
 
-  val geometry = new SphereGeometry(5, 60, 40, 0, Math.PI * 2, 0, Math.PI)
-  geometry.scale(-1, 1, 1)
+  val fragmentShader =
+    """
+      |void main() {
+      |  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+      |}
+      |""".stripMargin
 
-  val material = new MeshBasicMaterial(meshBasicMaterialParameters)
-  val sphere = new Mesh(geometry, material)
-
-  scene.add(sphere)
-
+  val geometry2 = new SphereGeometry(1,60,40, 0, Math.PI * 2, 0, Math.PI)
+  val shaderMaterialParams = ShaderMaterialParameters().setFragmentShader(fragmentShader).setVertexShader(vertexShader) //.setUniforms()
+  val shaderMaterial = new ShaderMaterial(shaderMaterialParams)
+  val sphere2 = new Mesh(geometry2, shaderMaterial)
+  sphere2.position.set(0, 1,  2);
+  scene.add(sphere2)
 
 
   def drawText(theScene: Scene, font: Font, textStr: String): Unit = {
