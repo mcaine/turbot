@@ -17,7 +17,8 @@ Compile / npmDependencies ++= Seq(
   "@types/react" -> "16.9.49",
   "react-dom" -> "16.13.1",
   "react-proxy" -> "1.1.8",
-  "three" -> "0.120.1"
+  "three" -> "0.135.0",
+  "@types/three" -> "0.135.0"
 )
 
 Compile /npmDevDependencies ++= Seq (

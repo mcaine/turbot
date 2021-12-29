@@ -2,8 +2,7 @@ package com.mikeycaine.turbot.components
 
 import org.scalajs.dom
 import typings.three.ambientLightMod.AmbientLight
-import typings.three.fontLoaderMod.FontLoader
-import typings.three.fontMod.Font
+import typings.three.fontLoaderMod.{Font, FontLoader}
 import typings.three.meshBasicMaterialMod.{MeshBasicMaterial, MeshBasicMaterialParameters}
 import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
 import typings.three.meshMod.Mesh
@@ -16,8 +15,6 @@ import typings.three.textureLoaderMod.TextureLoader
 import typings.three.textureMod
 import typings.three.vector3Mod.Vector3
 import typings.three.webGLRendererMod.WebGLRenderer
-
-import typings.three.
 
 import scala.scalajs.js
 
@@ -44,18 +41,18 @@ case class World(elemId: String, width: Int, height: Int) {
     drawText(scene, font, "Fran")
   })
 
-//  val textureLoader = new TextureLoader()
-//  val texture = textureLoader.load("./img/skye.jpg")
-//
-//  val meshBasicMaterialParameters = js.Dynamic.literal("map" -> texture).asInstanceOf[MeshBasicMaterialParameters]
-//
-//  val geometry = new SphereGeometry(5, 60, 40, 0, Math.PI * 2, 0, Math.PI)
-//  geometry.scale(-1, 1, 1)
-//
-//  val material = new MeshBasicMaterial(meshBasicMaterialParameters)
-//  val sphere = new Mesh(geometry, material)
-//
-//  scene.add(sphere)
+  val textureLoader = new TextureLoader()
+  val texture = textureLoader.load("./img/skye.jpg")
+
+  val meshBasicMaterialParameters = js.Dynamic.literal("map" -> texture).asInstanceOf[MeshBasicMaterialParameters]
+
+  val geometry = new SphereGeometry(5, 60, 40, 0, Math.PI * 2, 0, Math.PI)
+  geometry.scale(-1, 1, 1)
+
+  val material = new MeshBasicMaterial(meshBasicMaterialParameters)
+  val sphere = new Mesh(geometry, material)
+
+  //scene.add(sphere)
 
   val vertexShader =
     """void main() {
@@ -66,7 +63,7 @@ case class World(elemId: String, width: Int, height: Int) {
   val fragmentShader =
     """
       |void main() {
-      |  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+      |  gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
       |}
       |""".stripMargin
 
