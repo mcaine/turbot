@@ -1,19 +1,18 @@
 package com.mikeycaine.turbot.components
 
 import org.scalajs.dom
-import typings.three.ambientLightMod.AmbientLight
 import typings.three.fontLoaderMod.{Font, FontLoader}
-import typings.three.textGeometryMod.{TextBufferGeometry, TextGeometry, TextGeometryParameters}
-//import typings.three.fontLoaderMod.{Font, FontLoader}
+import typings.three.textGeometryMod.{TextGeometry, TextGeometryParameters}
 import typings.three.meshBasicMaterialMod.{MeshBasicMaterial, MeshBasicMaterialParameters}
 import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
 import typings.three.meshMod.Mesh
+import typings.three.perspectiveCameraMod
+import typings.three.perspectiveCameraMod.PerspectiveCamera
 import typings.three.sceneMod.Scene
 import typings.three.shaderMaterialMod.{ShaderMaterial, ShaderMaterialParameters}
 import typings.three.shaderMaterialMod.ShaderMaterialParameters.ShaderMaterialParametersMutableBuilder
 import typings.three.sphereGeometryMod.SphereGeometry
 import typings.three.textureLoaderMod.TextureLoader
-import typings.three.textureMod
 import typings.three.textureMod.Texture
 import typings.three.vector3Mod.Vector3
 import typings.three.webGLRendererMod.WebGLRenderer
@@ -30,28 +29,25 @@ case class World(elemId: String, width: Int, height: Int) {
     new MeshLambertMaterial(meshLambertMaterialParameters)
   })
 
-  val scene = SceneUtils.sceneWithAmbientLight
-
-  val camera = CameraUtils.newCamera(width, height)
-
+  val scene: Scene = SceneUtils.sceneWithDirectionalLight
+  //val scene: Scene = SceneUtils.sceneWithAmbientLight
+  val camera: PerspectiveCamera = CameraUtils.newCamera(width, height)
   val renderer: WebGLRenderer = WebGL.webGLRenderer(elemId, width, height)
 
-  val fontLoader = new FontLoader()
+  val fontLoader: FontLoader = new FontLoader()
   fontLoader.load("fonts/Pacifico_Regular.json", (font: Font) => {
     drawText(scene, font, "Fran")
   })
 
+  // sky
   val textureLoader = new TextureLoader()
-  val texture: Texture = textureLoader.load("./img/skye.jpg")
-
-  val meshBasicMaterialParameters = js.Dynamic.literal("map" -> texture).asInstanceOf[MeshBasicMaterialParameters]
-
-  val geometry = new SphereGeometry(5, 60, 40, 0, Math.PI * 2, 0, Math.PI)
+  val texture: Texture = textureLoader.load("./img/shepherds_crag.jpg")
+  val meshBasicMaterialParameters = MeshBasicMaterialParameters()
+  meshBasicMaterialParameters.map = texture
+  val geometry = new SphereGeometry(10, 60, 40, 0, Math.PI * 2, 0, Math.PI)
   geometry.scale(-1, 1, 1)
-
   val material = new MeshBasicMaterial(meshBasicMaterialParameters)
   val sphere = new Mesh(geometry, material)
-
   scene.add(sphere)
 
   val vertexShader =
@@ -77,18 +73,18 @@ case class World(elemId: String, width: Int, height: Int) {
 
   def drawText(theScene: Scene, font: Font, textStr: String): Unit = {
 
-    val fontSize = 0.5
+    val fontSize = 1
 
     val textGeomParams = TextGeometryParameters(font)
     textGeomParams.size = fontSize
-    textGeomParams.height = fontSize / 5
+    textGeomParams.height = fontSize
 
     val textGeometry = new TextGeometry(textStr, textGeomParams)
 
     val obj = new Mesh(textGeometry, meshLambertMaterials(5))
 
-    obj.position.x = -2
-    obj.position.y = -1
+    obj.position.x = -1
+    obj.position.y = 0
     obj.position.z = -2
 
     obj.rotation.x = 0
