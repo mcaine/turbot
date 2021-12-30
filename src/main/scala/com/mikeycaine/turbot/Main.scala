@@ -15,10 +15,6 @@ object Main {
   @js.native
   object AppCSS extends js.Object
 
-//  @JSImport("resources/logo.svg", JSImport.Default)
-//  @js.native
-//  object ReactLogo extends js.Object
-
   @JSExportTopLevel("main")
   def main(): Unit = {
 //    if (LinkingInfo.developmentMode) {
