@@ -5,7 +5,7 @@ import org.scalajs.dom
 import typings.three.boxGeometryMod.BoxGeometry
 import typings.three.cameraMod.Camera
 import typings.three.fontLoaderMod.FontLoader
-import typings.three.fontMod.Font
+import typings.three.fontLoaderMod.{Font, FontLoader}
 import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
 import typings.three.meshMod.Mesh
 import typings.three.sceneMod.Scene

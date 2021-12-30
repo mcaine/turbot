@@ -1,15 +1,10 @@
 package com.mikeycaine.turbot.components
 
-import com.mikeycaine.turbot.patterns.Pattern
 import org.scalajs.dom
-import typings.three.boxGeometryMod.BoxGeometry
 import typings.three.cameraMod.Camera
-import typings.three.coneGeometryMod.ConeGeometry
 import typings.three.dodecahedronGeometryMod.DodecahedronGeometry
 import typings.three.fontLoaderMod.FontLoader
-import typings.three.fontMod.Font
-import typings.three.geometriesMod.TorusKnotGeometry
-import typings.three.global.THREE
+import typings.three.fontLoaderMod.{Font, FontLoader}
 import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
 import typings.three.meshMod.Mesh
 import typings.three.sceneMod.Scene
@@ -27,7 +22,6 @@ case class TorusKnotDemo(renderer: WebGLRenderer, scene: Scene, camera: Camera) 
   })
 
   def doDrawing(): Unit = {
-
     val geometry2 = new DodecahedronGeometry(30.0)
     scene.add( new Mesh(geometry2, materials(1)) )
     scene.add(new Mesh(new TorusGeometry(60, 20, 100, 100), materials(3)) )

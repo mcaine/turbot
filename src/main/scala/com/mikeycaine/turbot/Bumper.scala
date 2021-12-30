@@ -9,7 +9,7 @@ import typings.std.global.document
 import typings.three.colorMod.Color
 import typings.three.directionalLightMod.DirectionalLight
 import typings.three.fontLoaderMod.FontLoader
-import typings.three.fontMod.Font
+import typings.three.fontLoaderMod.{Font, FontLoader}
 import typings.three.geometriesMod.BoxGeometry
 import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
 import typings.three.meshMod.Mesh

@@ -13,14 +13,18 @@ stIgnore += "react-dom"
 stIgnore += "react-proxy"
 
 Compile / npmDependencies ++= Seq(
-  "react" -> "16.13.1",
-  "@types/react" -> "16.9.49",
-  "react-dom" -> "16.13.1",
+  "react" -> "17.0.2",
+  "@types/react" -> "17.0.38",
+  "react-dom" -> "17.0.2",
   "react-proxy" -> "1.1.8",
-  "three" -> "0.120.1"
+  //"react-router"-> "6.2.0",
+  //"react-router-dom" -> "6.2.1",
+  //"@types/react-router-dom" -> "5.3.2",
+  "three" -> "0.135.0",
+  "@types/three" -> "0.135.0"
 )
 
-Compile /npmDevDependencies ++= Seq (
+Compile / npmDevDependencies ++= Seq (
   "file-loader" -> "6.0.0",
   "style-loader" -> "1.2.1",
   "css-loader" -> "3.5.3",
@@ -30,8 +34,10 @@ Compile /npmDevDependencies ++= Seq (
 )
 
 libraryDependencies ++= Seq(
-  "me.shadaj" %%% "slinky-web" % "0.6.5",
-  "me.shadaj" %%% "slinky-hot" % "0.6.5",
+  "me.shadaj" %%% "slinky-web" % "0.7.0",
+  "me.shadaj" %%% "slinky-hot" % "0.7.0",
+  //"me.shadaj" %%% "slinky-react-router" % "0.7.0",
+  //"com.github.japgolly.scalajs-react" %%% "extra" % "2.0.0",
   "org.scalatest" %%% "scalatest" % "3.1.1" % Test
 )
 
