@@ -11,70 +11,33 @@ import scala.scalajs.js
 
 object WebGLContainer {
 
-  case class State(hours: Int, minutes: Int, seconds: Int)
+ //case class State()
 
   case class Props(elemId: String)
 
-  class Backend($: BackendScope[Props, State]) {
-
-    var interval: js.UndefOr[js.timers.SetIntervalHandle] =
-      js.undefined
-
-    def tick =
-      $.modState(s => State(s.hours, s.minutes, (s.seconds + 1) % 60))
-
-//    def elementId = CallbackTo ( (p:Props) => {
-//      println("Getting elemId...")
-//      p.elemId
-//    } )
+  class Backend($: BackendScope[Props, Unit]) {
 
     var elemId = $.props.runNow().elemId
+    var world: World = null
 
     def start = Callback {
-    //def start = elementId >> Callback { targetElementId: String => {
-      interval = js.timers.setInterval(1000)(tick.runNow())
-
-      //val e = elementId.runNow()
-
-      //val targetElementId = elemId
-
       val width = document.getElementById(elemId).clientWidth
       val height = dom.window.innerHeight.toInt
 
       println(s">> width is really $width")
       println(s">> height is really $height")
 
-      val w = World(elemId, width, height)
-//
-//          try {
-//            //World("yrmum", width, height)
-//          } catch {
-//            case ex: Throwable => println("FullsizeContainer failed in componentDidMount() " + ex)
-//          }
+      val world = World(elemId, width, height)
     }
 
     def stop = Callback {
-      interval foreach js.timers.clearInterval
-      interval = js.undefined
+      if (world != null) world.stop
     }
-//
-//    def render(state: State, props: Props): VdomElement = {
-//      <.div(^.id := props.elemId,
-//        <.div("Hours: ", state.hours, " Minutes: ", state.minutes, " Seconds: ", state.seconds)
-//      )
-//    }
   }
-
-//  val Component =
-//    ScalaComponent.builder[Props]
-//      .render_P(p => <.div("WEBGLCONTAINER ${p.elemId}"))
-//      .build
-
-  //val world = World("thisxasxs", 1000, 1000)
 
   val Component
   = ScalaComponent.builder[Props]
-    .initialState(State(4,20,0))
+ //   .initialState(State(4,20,0))
     .backend(new Backend(_))
     .render_P(props => <.div(^.id := props.elemId))
     .componentDidMount(_.backend.start)
