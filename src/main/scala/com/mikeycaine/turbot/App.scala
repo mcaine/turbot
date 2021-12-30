@@ -1,6 +1,6 @@
 package com.mikeycaine.turbot
 
-import com.mikeycaine.turbot.components.{WebGLContainer}
+import com.mikeycaine.turbot.components.{SvgClock, WebGLContainer}
 import japgolly.scalajs.react.ScalaComponent
 import japgolly.scalajs.react.vdom.html_<^._
 
@@ -9,7 +9,7 @@ object App {
     ScalaComponent.builder[Unit]
       .renderStatic(
         <.div(
-          SvgClock(4, 20, 35, true),
+          SvgClock(5, 45, 10, true),
           WebGLContainer("xyz")
         )
       )

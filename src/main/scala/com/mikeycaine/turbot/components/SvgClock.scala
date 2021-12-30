@@ -1,5 +1,6 @@
-package com.mikeycaine.turbot
+package com.mikeycaine.turbot.components
 
+import japgolly.scalajs.react.ScalaComponent
 import com.mikeycaine.turbot.components.WebGLContainer
 import japgolly.scalajs.react.{ScalaComponent, ScalaFnComponent}
 import japgolly.scalajs.react.vdom.html_<^._
@@ -7,7 +8,6 @@ import japgolly.scalajs.react.vdom.html_<^._
 import japgolly.scalajs.react.vdom.svg_<^.<.{g, line, svg, text, circle}
 import japgolly.scalajs.react.vdom.svg_<^.^.{transform, x1, x2, y1, y2, textAnchor, x, y, visibility, r}
 import japgolly.scalajs.react.vdom.svg_<^.^.height
-
 
 object SvgClock {
 
@@ -43,11 +43,11 @@ object SvgClock {
   val minutes: Seq[Int] = for (minute <- 1 to 60) yield minute
   val hours: Seq[Int] = for (hour <- 1 to 12) yield hour
 
-  val MinuteTicks = ScalaFnComponent[Unit]{ _ =>
+  val MinuteTicks = ScalaFnComponent[Unit] { _ =>
     g(minutes map createMinuteTick: _*)
   }
 
-  val HourTicks = ScalaFnComponent[Unit]{ _ =>
+  val HourTicks = ScalaFnComponent[Unit] { _ =>
     g(hours map createHourTick: _*)
   }
 
@@ -68,7 +68,7 @@ object SvgClock {
     )
   }
 
-  val CentreOverlay = ScalaFnComponent[Unit]{ _ =>
+  val CentreOverlay = ScalaFnComponent[Unit] { _ =>
     g(^.id := "face-overlay")(
       circle(^.`class` := "hands-cover", x := 0, y := 0, r := 10)
     )
@@ -76,7 +76,7 @@ object SvgClock {
 
   val Component =
     ScalaComponent.builder[ClockProps]
-      .render_P(props =>  {
+      .render_P(props => {
         svg(^.className := "svgClock", ^.height := "500", ^.width := "500")(
           g(^.id := "clock-face", transform := "translate(250,250)")(
             MinuteTicks(),
@@ -85,7 +85,8 @@ object SvgClock {
             Hands(props),
             CentreOverlay()
           )
-        )}).build
+        )
+      }).build
 
   def apply(hours: Int, minutes: Int, seconds: Int, showSeconds: Boolean) = Component(ClockProps(hours, minutes, seconds, showSeconds))
 
