@@ -1,13 +1,10 @@
 package com.mikeycaine.turbot.components
 
 import japgolly.scalajs.react.ScalaComponent
-import com.mikeycaine.turbot.components.WebGLContainer
-import japgolly.scalajs.react.{ScalaComponent, ScalaFnComponent}
+import japgolly.scalajs.react.ScalaFnComponent
 import japgolly.scalajs.react.vdom.html_<^._
-//import japgolly.scalajs.react.vdom.html_<^.^.`class`
 import japgolly.scalajs.react.vdom.svg_<^.<.{g, line, svg, text, circle}
 import japgolly.scalajs.react.vdom.svg_<^.^.{transform, x1, x2, y1, y2, textAnchor, x, y, visibility, r}
-import japgolly.scalajs.react.vdom.svg_<^.^.height
 
 object SvgClock {
 
