@@ -2,22 +2,19 @@ package com.mikeycaine.turbot.components
 
 import org.scalajs.dom
 import typings.three.fontLoaderMod.{Font, FontLoader}
-import typings.three.textGeometryMod.{TextGeometry, TextGeometryParameters}
 import typings.three.meshBasicMaterialMod.{MeshBasicMaterial, MeshBasicMaterialParameters}
 import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
 import typings.three.meshMod.Mesh
-import typings.three.perspectiveCameraMod
 import typings.three.perspectiveCameraMod.PerspectiveCamera
 import typings.three.sceneMod.Scene
-import typings.three.shaderMaterialMod.{ShaderMaterial, ShaderMaterialParameters}
 import typings.three.shaderMaterialMod.ShaderMaterialParameters.ShaderMaterialParametersMutableBuilder
+import typings.three.shaderMaterialMod.{ShaderMaterial, ShaderMaterialParameters}
 import typings.three.sphereGeometryMod.SphereGeometry
+import typings.three.textGeometryMod.{TextGeometry, TextGeometryParameters}
 import typings.three.textureLoaderMod.TextureLoader
 import typings.three.textureMod.Texture
 import typings.three.vector3Mod.Vector3
 import typings.three.webGLRendererMod.WebGLRenderer
-
-import scala.scalajs.js
 
 case class World(elemId: String, width: Int, height: Int) {
 
@@ -30,7 +27,6 @@ case class World(elemId: String, width: Int, height: Int) {
   })
 
   val scene: Scene = SceneUtils.sceneWithDirectionalLight
-  //val scene: Scene = SceneUtils.sceneWithAmbientLight
   val camera: PerspectiveCamera = CameraUtils.newCamera(width, height)
   val renderer: WebGLRenderer = WebGL.webGLRenderer(elemId, width, height)
 
@@ -70,7 +66,6 @@ case class World(elemId: String, width: Int, height: Int) {
   sphere2.position.set(0, 1,  2);
   scene.add(sphere2)
 
-
   def drawText(theScene: Scene, font: Font, textStr: String): Unit = {
 
     val fontSize = 1
@@ -98,19 +93,24 @@ case class World(elemId: String, width: Int, height: Int) {
 
   def moveCameras(): Unit = {
     theta = theta + 0.2
-
     val vector = new Vector3(Math.sin(Math.PI * theta/180), 0.2 , Math.cos(Math.PI * theta/180))
     camera.lookAt(vector)
-
     renderer.render(scene, camera)
-
   }
 
+  var animating = true
+
   def animate(dummy: Double): Unit = {
-    moveCameras()
-    dom.window.requestAnimationFrame(animate)
+    if (animating) {
+      moveCameras()
+      dom.window.requestAnimationFrame(animate)
+    }
   }
 
   animate(0.0)
+
+  def stop = {
+    animating = false
+  }
 }
 

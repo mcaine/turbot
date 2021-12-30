@@ -9,12 +9,54 @@ import typings.three.fontLoaderMod.{Font, FontLoader}
 import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
 import typings.three.meshMod.Mesh
 import typings.three.sceneMod.Scene
-import typings.three.textGeometryMod.{TextBufferGeometry, TextGeometryParameters}
+import typings.three.textGeometryMod.{TextGeometry, TextGeometryParameters}
 import typings.three.webGLRendererMod.WebGLRenderer
+import japgolly.scalajs.react._
+import japgolly.scalajs.react.component.Scala.BackendScope
+import japgolly.scalajs.react.vdom.html_<^._
+import typings.std.global.document
+import typings.three.perspectiveCameraMod.PerspectiveCamera
+import typings.three.vector3Mod.Vector3
 
-import scala.util.Random
+object KnitwearContainer {
+  case class Props(elemId: String)
 
-case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
+  class Backend($: BackendScope[Props, Unit]) {
+
+    var elemId = $.props.runNow().elemId
+    var world: World = null
+
+    def start = Callback {
+      val width = document.getElementById(elemId).clientWidth
+      val height = dom.window.innerHeight.toInt
+
+      println(s"knitwear width is actually $width")
+      println(s"knitwear height is, so they say, $height")
+
+      val knitwear = Knitwear(elemId, width, height)
+    }
+
+    def stop = Callback {
+      if (world != null) world.stop
+    }
+  }
+
+  val Component
+  = ScalaComponent.builder[Props]
+    .backend(new Backend(_))
+    .render_P(props => <.div(^.id := props.elemId))
+    .componentDidMount(_.backend.start)
+    .componentWillUnmount(_.backend.stop)
+    .build
+
+  def apply(elemId: String) = Component(Props(elemId))
+}
+
+//case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
+
+case class Knitwear(elemId: String, width: Int, height: Int) {
+
+  println("Loading Knitwear in elem " + elemId)
 
   val colours = ColourScheme.colours
 
@@ -24,6 +66,11 @@ case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
     meshLambertMaterialParameters.color = col
     new MeshLambertMaterial(meshLambertMaterialParameters)
   })
+
+  //val scene: Scene = SceneUtils.sceneWithDirectionalLight
+  val scene: Scene = SceneUtils.sceneWithAmbientLight
+  val camera: PerspectiveCamera = CameraUtils.newCamera(width, height)
+  val renderer: WebGLRenderer = WebGL.webGLRenderer(elemId, width, height)
 
 //
   //val radius = 4000.0
@@ -59,7 +106,7 @@ case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
 
   def doDrawing(): Unit = {
     val pattern = pattern5
-    val geometry = new BoxGeometry(50.0, 50.0, 10.0, 1, 1, 1)
+    val geometry = new BoxGeometry(5.0, 5.0, 1.0, 1, 1, 1)
 
     for (x <- 0 until pattern.rowLength * 16)
       for (y <- 0 until pattern.nRows * 16) {
@@ -67,9 +114,9 @@ case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
         val material = meshLambert(pattern.charAt(x, y).toString)
         val obj = new Mesh(geometry, material)
 
-        obj.position.x = -10000 + 50 * x
-        obj.position.y = -7000 + 50 * y
-        obj.position.z = 0
+        obj.position.x = -1000 + 5 * x
+        obj.position.y = -1000 + 5 * y
+        obj.position.z = -500
 
         obj.rotation.x = 0
         obj.rotation.y = 0
@@ -85,19 +132,19 @@ case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
 
   def drawText(font: Font, textStr: String): Unit = {
 
-    val fontSize = 500
+    val fontSize = 5
 
     val textGeomParams = TextGeometryParameters(font)
     textGeomParams.size = fontSize
     textGeomParams.height = fontSize / 5
 
-    val textGeometry = new TextBufferGeometry(textStr, textGeomParams)
+    val textGeometry = new TextGeometry(textStr, textGeomParams)
 
     val obj = new Mesh(textGeometry, materials(5))
 
-    obj.position.x = -2300
-    obj.position.y = -700
-    obj.position.z = 0
+    obj.position.x = 0
+    obj.position.y = 0
+    obj.position.z = -100
 
     obj.rotation.x = 0
     obj.rotation.y = 0
@@ -116,28 +163,20 @@ case class Knitwear(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
 
   var theta = -90.0
 
-  def moveCamera(): Unit = {
-    theta = theta + 0.5
-    if (theta > 90) {
-      theta = -90.0
-    }
-
-    val radius = 3000
-
-    camera.position.x = radius * Math.sin(Math.PI * theta / 180)
-    camera.position.y = 0.2 * radius * Math.sin(Math.PI * theta / 180)
-    camera.position.z = radius * Math.cos(Math.PI * theta / 180)
-
-    camera.lookAt(scene.position)
-    camera.updateMatrixWorld()
+  def moveCamera: Unit = {
+    theta = theta + 1
+    val vector = new Vector3(Math.sin(Math.PI * theta/180), 0 , Math.cos(Math.PI * theta/180))
+    //val vector = new Vector3(0, 0 , -1)
+    camera.lookAt(vector)
     renderer.render(scene, camera)
   }
 
   def animate(dummy: Double): Unit = {
     //println("animation frame")
     dom.window.requestAnimationFrame(animate)
-    moveCamera()
+    moveCamera
   }
 
+  doDrawing()
   animate(0.0)
 }
