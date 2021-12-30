@@ -7,7 +7,7 @@ name := "turbot"
 
 scalaVersion := "2.13.2"
 
-stFlavour := Flavour.Slinky
+stFlavour := Flavour.ScalajsReact
 
 stIgnore += "react-dom"
 stIgnore += "react-proxy"
@@ -34,10 +34,10 @@ Compile / npmDevDependencies ++= Seq (
 )
 
 libraryDependencies ++= Seq(
-  "me.shadaj" %%% "slinky-web" % "0.7.0",
-  "me.shadaj" %%% "slinky-hot" % "0.7.0",
+  //"me.shadaj" %%% "slinky-web" % "0.7.0",
+  //"me.shadaj" %%% "slinky-hot" % "0.7.0",
   //"me.shadaj" %%% "slinky-react-router" % "0.7.0",
-  //"com.github.japgolly.scalajs-react" %%% "extra" % "2.0.0",
+  "com.github.japgolly.scalajs-react" %%% "extra" % "2.0.0",
   "org.scalatest" %%% "scalatest" % "3.1.1" % Test
 )
 
