@@ -28,21 +28,23 @@ object WebGLContainer {
 //      p.elemId
 //    } )
 
+    var elemId = $.props.runNow().elemId
+
     def start = Callback {
     //def start = elementId >> Callback { targetElementId: String => {
       interval = js.timers.setInterval(1000)(tick.runNow())
 
       //val e = elementId.runNow()
 
-      val targetElementId = "xyz"
+      //val targetElementId = elemId
 
-      val width = document.getElementById(targetElementId).clientWidth
+      val width = document.getElementById(elemId).clientWidth
       val height = dom.window.innerHeight.toInt
 
       println(s">> width is really $width")
       println(s">> height is really $height")
 
-      val w = World(targetElementId, width, height)
+      val w = World(elemId, width, height)
 //
 //          try {
 //            //World("yrmum", width, height)
@@ -55,12 +57,12 @@ object WebGLContainer {
       interval foreach js.timers.clearInterval
       interval = js.undefined
     }
-
-    def render(state: State, props: Props): VdomElement = {
-      <.div(^.id := props.elemId,
-        <.div("Hours: ", state.hours, " Minutes: ", state.minutes, " Seconds: ", state.seconds)
-      )
-    }
+//
+//    def render(state: State, props: Props): VdomElement = {
+//      <.div(^.id := props.elemId,
+//        <.div("Hours: ", state.hours, " Minutes: ", state.minutes, " Seconds: ", state.seconds)
+//      )
+//    }
   }
 
 //  val Component =
@@ -74,7 +76,6 @@ object WebGLContainer {
   = ScalaComponent.builder[Props]
     .initialState(State(4,20,0))
     .backend(new Backend(_))
-    //.renderBackend[Backend]
     .render_P(props => <.div(^.id := props.elemId))
     .componentDidMount(_.backend.start)
     .componentWillUnmount(_.backend.stop)
