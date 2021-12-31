@@ -9,9 +9,9 @@ object App {
     ScalaComponent.builder[Unit]
       .renderStatic(
         <.div(
-          //SvgClock(5, 45, 10, true),
-          WebGLContainer("xyz"),
           //KnitwearContainer("knitwear"),
+          WebGLContainer("xyz"),
+          SvgClock(5, 45, 10, true)
         )
       )
       .build

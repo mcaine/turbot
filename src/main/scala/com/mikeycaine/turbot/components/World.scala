@@ -32,7 +32,7 @@ case class World(elemId: String, width: Int, height: Int) {
 
   val fontLoader: FontLoader = new FontLoader()
   fontLoader.load("fonts/Pacifico_Regular.json", (font: Font) => {
-    drawText(scene, font, "Fran")
+    drawText(font, "Fran")
   })
 
   // sky
@@ -66,17 +66,24 @@ case class World(elemId: String, width: Int, height: Int) {
   sphere2.position.set(0, 1,  2);
   scene.add(sphere2)
 
-  def drawText(theScene: Scene, font: Font, textStr: String): Unit = {
+  def drawText(font: Font, textStr: String): Unit = {
 
     val fontSize = 1
 
     val textGeomParams = TextGeometryParameters(font)
     textGeomParams.size = fontSize
-    textGeomParams.height = fontSize
+    textGeomParams.height = fontSize / 5
 
     val textGeometry = new TextGeometry(textStr, textGeomParams)
 
-    val obj = new Mesh(textGeometry, meshLambertMaterials(5))
+    val textureLoader = new TextureLoader()
+    val texture: Texture = textureLoader.load("./img/star-stitch.jpg")
+
+    val meshBasicMaterialParameters = MeshBasicMaterialParameters()
+    meshBasicMaterialParameters.map = texture
+    val material = new MeshBasicMaterial(meshBasicMaterialParameters)
+
+    val obj = new Mesh(textGeometry, material)
 
     obj.position.x = -1
     obj.position.y = 0
@@ -86,7 +93,7 @@ case class World(elemId: String, width: Int, height: Int) {
     obj.rotation.y = 0
     obj.rotation.z = 0
 
-    theScene.add(obj)
+    scene.add(obj)
   }
 
   var theta = 180.0

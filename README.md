@@ -20,7 +20,7 @@ sbt clean
 
 sbt build
 
-docker docker build -t turbot .
+docker build -t turbot .
 ```
 
 # Run container

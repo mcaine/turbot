@@ -27,8 +27,11 @@ object KnitwearContainer {
     var world: World = null
 
     def start = Callback {
-      val width = document.getElementById(elemId).clientWidth
-      val height = dom.window.innerHeight.toInt
+//      val width = document.getElementById(elemId).clientWidth
+//      val height = dom.window.innerHeight.toInt
+
+      val width = 1000
+      val height = 500
 
       println(s"knitwear width is actually $width")
       println(s"knitwear height is, so they say, $height")
