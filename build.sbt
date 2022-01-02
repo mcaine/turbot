@@ -14,14 +14,18 @@ stIgnore += "react-proxy"
 
 Compile / npmDependencies ++= Seq(
   "react" -> "17.0.2",
-  "@types/react" -> "17.0.38",
   "react-dom" -> "17.0.2",
+  "@types/react" -> "17.0.38",
+  "@types/react-dom" -> "17.0.11",
   "react-proxy" -> "1.1.8",
   //"react-router"-> "6.2.0",
   //"react-router-dom" -> "6.2.1",
   //"@types/react-router-dom" -> "5.3.2",
   "three" -> "0.135.0",
-  "@types/three" -> "0.135.0"
+  "@types/three" -> "0.135.0",
+  "@types/p5" -> "1.3.2",
+//  "p5" -> "1.4.0",
+  "react-p5" -> "1.3.24"
 )
 
 Compile / npmDevDependencies ++= Seq (
