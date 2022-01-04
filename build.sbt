@@ -25,7 +25,10 @@ Compile / npmDependencies ++= Seq(
   "@types/three" -> "0.135.0",
   "@types/p5" -> "1.3.2",
 //  "p5" -> "1.4.0",
-  "react-p5" -> "1.3.24"
+  "react-p5" -> "1.3.24",
+  "@types/d3" -> "7.1.0",
+  "d3" -> "7.2.1",
+  "d3-geo" -> "3.0.1"
 )
 
 Compile / npmDevDependencies ++= Seq (
