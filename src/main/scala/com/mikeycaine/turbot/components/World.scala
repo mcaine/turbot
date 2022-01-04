@@ -1,6 +1,8 @@
 package com.mikeycaine.turbot.components
 
+import org.scalablytyped.runtime.StringDictionary
 import org.scalajs.dom
+import typings.three.anon.Uniforms
 import typings.three.fontLoaderMod.{Font, FontLoader}
 import typings.three.meshBasicMaterialMod.{MeshBasicMaterial, MeshBasicMaterialParameters}
 import typings.three.meshLambertMaterialMod.{MeshLambertMaterial, MeshLambertMaterialParameters}
@@ -13,8 +15,12 @@ import typings.three.sphereGeometryMod.SphereGeometry
 import typings.three.textGeometryMod.{TextGeometry, TextGeometryParameters}
 import typings.three.textureLoaderMod.TextureLoader
 import typings.three.textureMod.Texture
+import typings.three.uniformsLibMod.IUniform
 import typings.three.vector3Mod.Vector3
 import typings.three.webGLRendererMod.WebGLRenderer
+
+import scala.scalajs.js
+import scala.scalajs.js.JSConverters.JSRichMap
 
 case class World(elemId: String, width: Int, height: Int) {
 
@@ -47,20 +53,34 @@ case class World(elemId: String, width: Int, height: Int) {
   scene.add(sphere)
 
   val vertexShader =
-    """void main() {
+    """
+      |varying vec3 v_Normal;
+      |void main() {
       |  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      |  v_Normal = normal;
       |}
       |""".stripMargin
 
   val fragmentShader =
     """
+      |uniform vec3 sphereColour;
+      |varying vec3 v_Normal;
       |void main() {
-      |  gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
+      |  //gl_FragColor = vec4(v_Normal, 1.0);
+      |  gl_FragColor = vec4(sphereColour, 1.0);
       |}
       |""".stripMargin
 
   val geometry2 = new SphereGeometry(1,60,40, 0, Math.PI * 2, 0, Math.PI)
-  val shaderMaterialParams = ShaderMaterialParameters().setFragmentShader(fragmentShader).setVertexShader(vertexShader) //.setUniforms()
+
+  val uniforms: StringDictionary[IUniform[Any]] =
+    StringDictionary("sphereColour" -> IUniform(new Vector3(0,1,1)))
+
+  val shaderMaterialParams: ShaderMaterialParameters =
+    ShaderMaterialParameters()
+      .setUniforms(uniforms)
+      .setFragmentShader(fragmentShader)
+      .setVertexShader(vertexShader)
   val shaderMaterial = new ShaderMaterial(shaderMaterialParams)
   val sphere2 = new Mesh(geometry2, shaderMaterial)
   sphere2.position.set(0, 1,  2);
@@ -96,10 +116,10 @@ case class World(elemId: String, width: Int, height: Int) {
     scene.add(obj)
   }
 
-  var theta = 180.0
+  var theta = 0.0
 
   def moveCameras(): Unit = {
-    theta = theta + 0.2
+    theta = theta + 0.02
     val vector = new Vector3(Math.sin(Math.PI * theta/180), 0.2 , Math.cos(Math.PI * theta/180))
     camera.lookAt(vector)
     renderer.render(scene, camera)

@@ -8,7 +8,8 @@ import org.scalajs.dom.html.Div
 import typings.std.global.document
 
 object WebGLContainer {
-case class Props(elemId: String)
+
+  case class Props(elemId: String)
 
   class Backend($: BackendScope[Props, Unit]) {
 
@@ -19,13 +20,13 @@ case class Props(elemId: String)
       //val width = document.getElementById(elemId).clientWidth
       //val height = dom.window.innerHeight.toInt
 
-      val width = 1000
-      val height = 500
+      val width = 1500
+      val height = 900
 
       //println(s">> width is actually $width")
       //println(s">> height is truly $height")
 
-      val world = World(elemId, width, height)
+      world = World(elemId, width, height)
     }
 
     def stop = Callback {

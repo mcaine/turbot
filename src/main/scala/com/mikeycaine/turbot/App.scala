@@ -1,6 +1,6 @@
 package com.mikeycaine.turbot
 
-import com.mikeycaine.turbot.components.{SvgClock, WebGLContainer, KnitwearContainer}
+import com.mikeycaine.turbot.components.{KnitwearContainer, P5Demo, SvgClock, WebGLContainer}
 import japgolly.scalajs.react.ScalaComponent
 import japgolly.scalajs.react.vdom.html_<^._
 
@@ -10,8 +10,9 @@ object App {
       .renderStatic(
         <.div(
           //KnitwearContainer("knitwear"),
-          WebGLContainer("xyz"),
-          SvgClock(5, 45, 10, true)
+          //WebGLContainer("xyz")
+          P5Demo("p5elem")
+          //SvgClock(5, 45, 10, true)
         )
       )
       .build
