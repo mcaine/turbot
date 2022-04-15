@@ -28,7 +28,12 @@ Compile / npmDependencies ++= Seq(
   "react-p5" -> "1.3.24",
   "@types/d3" -> "7.1.0",
   "d3" -> "7.2.1",
-  "d3-geo" -> "3.0.1"
+  "d3-geo" -> "3.0.1",
+  "@types/d3-geo"-> "3.0.2",
+  //"d3-selection" -> "3.0.0",
+  "topojson" -> "3.0.2",
+  "topojson-client" -> "3.1.0",
+  "@types/topojson" -> "3.2.3"
 )
 
 Compile / npmDevDependencies ++= Seq (

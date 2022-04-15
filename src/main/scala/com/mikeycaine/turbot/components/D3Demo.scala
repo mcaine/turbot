@@ -1,5 +1,6 @@
 package com.mikeycaine.turbot.components
 
+import com.mikeycaine.turbot.maps.SimpleMapDemo
 import japgolly.scalajs.react.component.Scala.BackendScope
 import japgolly.scalajs.react.vdom.html_<^._
 import japgolly.scalajs.react.{Callback, ScalaComponent}
@@ -20,6 +21,7 @@ object D3Demo {
   class Backend($: BackendScope[Props, Unit]) {
 
     def start = $.props.map({ props: Props =>
+
       val elem = document.getElementById(props.elemId)
       val canvas = dom.document.createElement("canvas").asInstanceOf[Canvas]
       val context = canvas.getContext("2d")
