@@ -9,19 +9,44 @@ import typings.reactP5.mod.P5
 object MikePence {
   case class Props(elemId: String)
 
+  case class Point(x: Int, y:Int)
+
+  case class Quad(tl: Point, tr: Point, bl: Point, br: Point) {
+    def draw(p: P5): Unit = {
+      p.stroke(255, 0, 0)
+      //p.line(q.tl.x, q.tl.y, q.tr.x, q.tr.y)
+      p.line(tl.x, tl.y, tr.x, tr.y)
+
+      p.stroke(0, 255, 0)
+
+      p.line(tr.x, tr.y, br.x, br.y)
+
+      p.stroke(0, 0, 255)
+      p.line(br.x, br.y, bl.x, bl.y)
+
+      p.stroke(255, 255, 255)
+      p.line(bl.x, bl.y, tl.x, tl.y)
+    }
+  }
+
+  val quads = List(
+    Quad(Point(1483, 315), Point(1708, 390), Point(1392, 590), Point(1570, 735))
+  )
+
   val w = 2048
   val h = 1334
+
+
 
   val mySetup = (p: P5, canvasParentRef: Element) => Callback {
     p.createCanvas(w, h).parent(canvasParentRef);
     p.pixelDensity(1)
     p.noLoop()
 
-
-
   };
 
   val myDraw = (p:P5) => Callback {
+    //p.background(pence)
 
 
 //    p.background(0)
@@ -52,8 +77,30 @@ object MikePence {
 //    }
 //    p.updatePixels()
 
+
+
     p.loadImage("img/pencedesk.png", (img: Image) => {
       p.image(img, 0, 0)
+
+      quads foreach (_.draw(p))
+//        p.stroke(255, 0, 0)
+//        //p.line(q.tl.x, q.tl.y, q.tr.x, q.tr.y)
+//        p.line(q.tl.x, q.tl.y, q.tr.x, q.tr.y)
+//
+//        p.stroke(0, 255, 0)
+//
+//        p.line(q.tr.x, q.tr.y, q.br.x, q.br.y)
+//
+//        p.stroke(0, 0, 255)
+//        p.line(q.br.x, q.br.y, q.bl.x, q.bl.y)
+
+     // }
+
+      //p.updatePixels()
+
+//      p.stroke(255, 0, 0)
+//      p.line(0, 1000, w, 1000)
+
     });
   }
 

@@ -13,21 +13,27 @@ object WebGLContainer {
 
   class Backend($: BackendScope[Props, Unit]) {
 
-    var elemId = $.props.runNow().elemId
+    //var elemId = $.props.runNow().elemId
     var world: World = null
 
-    def start = Callback {
-      //val width = document.getElementById(elemId).clientWidth
-      //val height = dom.window.innerHeight.toInt
+    val width = 1500
+    val height = 900
 
-      val width = 1500
-      val height = 900
-
-      //println(s">> width is actually $width")
-      //println(s">> height is truly $height")
-
-      world = World(elemId, width, height)
+    def start = $.props map { p =>
+      world = World(p.elemId, width, height)
     }
+
+//    def start = Callback {
+//      //val width = document.getElementById(elemId).clientWidth
+//      //val height = dom.window.innerHeight.toInt
+//
+//
+//
+//      //println(s">> width is actually $width")
+//      //println(s">> height is truly $height")
+//
+//      world = World(elemId, width, height)
+//    }
 
     def stop = Callback {
       if (world != null) world.stop
