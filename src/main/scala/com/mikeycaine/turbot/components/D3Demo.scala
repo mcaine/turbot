@@ -20,7 +20,7 @@ object D3Demo {
 
   class Backend($: BackendScope[Props, Unit]) {
 
-    def start = $.props.map({ props: Props =>
+    def start = $.props.map({ (props: Props) =>
 
       val elem = document.getElementById(props.elemId)
       val canvas = dom.document.createElement("canvas").asInstanceOf[Canvas]
